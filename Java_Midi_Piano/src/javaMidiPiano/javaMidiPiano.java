@@ -97,6 +97,11 @@ public class javaMidiPiano extends javax.swing.JFrame {
                 jbcActionPerformed(evt);
             }
         });
+        jbc.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jbcKeyPressed(evt);
+            }
+        });
         jPanel1.add(jbc);
         jbc.setBounds(190, 180, 70, 390);
 
@@ -520,6 +525,22 @@ public class javaMidiPiano extends javax.swing.JFrame {
     private void jToggleButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton2ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jToggleButton2ActionPerformed
+
+    private void jbcKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jbcKeyPressed
+        InputStream iAudio;
+        
+        char c = evt.getKeyChar();
+        if(c == 'd') {
+            try {
+                iAudio = new FileInputStream(new File ("C:\\Javawork\\Music_Note\\C.wav"));
+                AudioStream iMusic = new AudioStream(iAudio);
+                AudioPlayer.player.start(iMusic );
+            } catch (IOException e){
+                JOptionPane.showMessageDialog(null, e);
+            }
+        }
+        
+    }//GEN-LAST:event_jbcKeyPressed
 
     /**
      * @param args the command line arguments

@@ -65,14 +65,18 @@ public class javaMidiPiano extends javax.swing.JFrame {
         jToggleButton1 = new javax.swing.JToggleButton();
         jToggleButton2 = new javax.swing.JToggleButton();
         jTextField1 = new javax.swing.JTextField();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jList1 = new javax.swing.JList<>();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jCheckBox1 = new javax.swing.JCheckBox();
         jCheckBox2 = new javax.swing.JCheckBox();
         jLabel4 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        jSlider2 = new javax.swing.JSlider();
+        jTextField2 = new javax.swing.JTextField();
+        jTextField3 = new javax.swing.JTextField();
+        jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(null);
@@ -90,6 +94,7 @@ public class javaMidiPiano extends javax.swing.JFrame {
 
         jbc.setBackground(java.awt.Color.white);
         jbc.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
+        jbc.setForeground(java.awt.Color.gray);
         jbc.setText("c");
         jbc.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
         jbc.addActionListener(new java.awt.event.ActionListener() {
@@ -114,6 +119,7 @@ public class javaMidiPiano extends javax.swing.JFrame {
 
         jbe.setBackground(java.awt.Color.white);
         jbe.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
+        jbe.setForeground(java.awt.Color.gray);
         jbe.setText("e");
         jbe.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
         jbe.addActionListener(new java.awt.event.ActionListener() {
@@ -126,6 +132,7 @@ public class javaMidiPiano extends javax.swing.JFrame {
 
         jbd.setBackground(java.awt.Color.white);
         jbd.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
+        jbd.setForeground(java.awt.Color.gray);
         jbd.setText("d");
         jbd.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
         jbd.addActionListener(new java.awt.event.ActionListener() {
@@ -145,6 +152,7 @@ public class javaMidiPiano extends javax.swing.JFrame {
 
         jbf.setBackground(java.awt.Color.white);
         jbf.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
+        jbf.setForeground(java.awt.Color.gray);
         jbf.setText("f");
         jbf.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
         jbf.addActionListener(new java.awt.event.ActionListener() {
@@ -164,6 +172,7 @@ public class javaMidiPiano extends javax.swing.JFrame {
 
         jbg.setBackground(java.awt.Color.white);
         jbg.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
+        jbg.setForeground(java.awt.Color.gray);
         jbg.setText("g");
         jbg.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
         jbg.addActionListener(new java.awt.event.ActionListener() {
@@ -183,6 +192,7 @@ public class javaMidiPiano extends javax.swing.JFrame {
 
         jba.setBackground(java.awt.Color.white);
         jba.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
+        jba.setForeground(java.awt.Color.gray);
         jba.setText("a");
         jba.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
         jba.addActionListener(new java.awt.event.ActionListener() {
@@ -195,6 +205,7 @@ public class javaMidiPiano extends javax.swing.JFrame {
 
         jbh.setBackground(java.awt.Color.white);
         jbh.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
+        jbh.setForeground(java.awt.Color.gray);
         jbh.setText("h");
         jbh.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
         jbh.addActionListener(new java.awt.event.ActionListener() {
@@ -214,6 +225,7 @@ public class javaMidiPiano extends javax.swing.JFrame {
 
         jbA.setBackground(java.awt.Color.white);
         jbA.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
+        jbA.setForeground(java.awt.Color.gray);
         jbA.setText("A");
         jbA.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
         jbA.addActionListener(new java.awt.event.ActionListener() {
@@ -226,6 +238,7 @@ public class javaMidiPiano extends javax.swing.JFrame {
 
         jbH.setBackground(java.awt.Color.white);
         jbH.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
+        jbH.setForeground(java.awt.Color.gray);
         jbH.setText("H");
         jbH.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
         jbH.addActionListener(new java.awt.event.ActionListener() {
@@ -238,6 +251,7 @@ public class javaMidiPiano extends javax.swing.JFrame {
 
         jbc2.setBackground(java.awt.Color.white);
         jbc2.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
+        jbc2.setForeground(java.awt.Color.gray);
         jbc2.setText("c2");
         jbc2.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
         jbc2.addActionListener(new java.awt.event.ActionListener() {
@@ -264,6 +278,7 @@ public class javaMidiPiano extends javax.swing.JFrame {
 
         jbd1.setBackground(java.awt.Color.white);
         jbd1.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
+        jbd1.setForeground(java.awt.Color.gray);
         jbd1.setText("d1");
         jbd1.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
         jbd1.addActionListener(new java.awt.event.ActionListener() {
@@ -276,6 +291,7 @@ public class javaMidiPiano extends javax.swing.JFrame {
 
         jbe1.setBackground(java.awt.Color.white);
         jbe1.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
+        jbe1.setForeground(java.awt.Color.gray);
         jbe1.setText("e1");
         jbe1.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
         jbe1.addActionListener(new java.awt.event.ActionListener() {
@@ -295,6 +311,7 @@ public class javaMidiPiano extends javax.swing.JFrame {
 
         jbf1.setBackground(java.awt.Color.white);
         jbf1.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
+        jbf1.setForeground(java.awt.Color.gray);
         jbf1.setText("f1");
         jbf1.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
         jbf1.addActionListener(new java.awt.event.ActionListener() {
@@ -314,6 +331,7 @@ public class javaMidiPiano extends javax.swing.JFrame {
 
         jbg1.setBackground(java.awt.Color.white);
         jbg1.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
+        jbg1.setForeground(java.awt.Color.gray);
         jbg1.setText("g1");
         jbg1.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
         jbg1.addActionListener(new java.awt.event.ActionListener() {
@@ -333,6 +351,7 @@ public class javaMidiPiano extends javax.swing.JFrame {
 
         jba1.setBackground(java.awt.Color.white);
         jba1.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
+        jba1.setForeground(java.awt.Color.gray);
         jba1.setText("a1");
         jba1.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
         jba1.addActionListener(new java.awt.event.ActionListener() {
@@ -345,6 +364,7 @@ public class javaMidiPiano extends javax.swing.JFrame {
 
         jbh1.setBackground(java.awt.Color.white);
         jbh1.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
+        jbh1.setForeground(java.awt.Color.gray);
         jbh1.setText("h1");
         jbh1.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
         jbh1.addActionListener(new java.awt.event.ActionListener() {
@@ -357,6 +377,7 @@ public class javaMidiPiano extends javax.swing.JFrame {
 
         jbc1.setBackground(java.awt.Color.white);
         jbc1.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
+        jbc1.setForeground(java.awt.Color.gray);
         jbc1.setText("c1");
         jbc1.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
         jbc1.addActionListener(new java.awt.event.ActionListener() {
@@ -367,7 +388,7 @@ public class javaMidiPiano extends javax.swing.JFrame {
         jPanel1.add(jbc1);
         jbc1.setBounds(680, 180, 70, 390);
         jPanel1.add(jSlider1);
-        jSlider1.setBounds(990, 20, 250, 20);
+        jSlider1.setBounds(50, 60, 180, 40);
 
         jToggleButton1.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jToggleButton1.setForeground(java.awt.Color.darkGray);
@@ -388,48 +409,37 @@ public class javaMidiPiano extends javax.swing.JFrame {
 
         jTextField1.setText("jTextField1");
         jPanel1.add(jTextField1);
-        jTextField1.setBounds(990, 50, 90, 40);
+        jTextField1.setBounds(450, 110, 260, 40);
 
-        jList1.setFont(new java.awt.Font("Tahoma", 0, 20)); // NOI18N
-        jList1.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Piano", "Violin", "Hammond" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
-        });
-        jScrollPane1.setViewportView(jList1);
-
-        jPanel1.add(jScrollPane1);
-        jScrollPane1.setBounds(50, 60, 160, 90);
-
-        jLabel2.setFont(new java.awt.Font("Tahoma", 3, 50)); // NOI18N
+        jLabel2.setFont(new java.awt.Font("Tahoma", 1, 50)); // NOI18N
         jLabel2.setForeground(java.awt.Color.white);
         jLabel2.setText("Java Midi Piano");
         jPanel1.add(jLabel2);
-        jLabel2.setBounds(450, 30, 450, 110);
+        jLabel2.setBounds(450, -20, 450, 110);
 
         jLabel3.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         jLabel3.setForeground(java.awt.Color.white);
-        jLabel3.setText("Effects");
+        jLabel3.setText("Master Vol.");
         jPanel1.add(jLabel3);
-        jLabel3.setBounds(250, 20, 160, 40);
+        jLabel3.setBounds(50, 20, 160, 40);
 
         jCheckBox1.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         jCheckBox1.setForeground(java.awt.Color.white);
-        jCheckBox1.setText("Vibrato");
+        jCheckBox1.setText(" Vibrato");
         jPanel1.add(jCheckBox1);
-        jCheckBox1.setBounds(250, 110, 140, 37);
+        jCheckBox1.setBounds(260, 110, 140, 40);
 
         jCheckBox2.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         jCheckBox2.setForeground(java.awt.Color.white);
-        jCheckBox2.setText("Sustain");
+        jCheckBox2.setText(" Echo");
         jPanel1.add(jCheckBox2);
-        jCheckBox2.setBounds(250, 60, 140, 40);
+        jCheckBox2.setBounds(260, 60, 140, 40);
 
         jLabel4.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         jLabel4.setForeground(java.awt.Color.white);
         jLabel4.setText("Sounds Menu");
         jPanel1.add(jLabel4);
-        jLabel4.setBounds(50, 20, 160, 40);
+        jLabel4.setBounds(450, 70, 160, 40);
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel1.setForeground(java.awt.Color.white);
@@ -437,7 +447,33 @@ public class javaMidiPiano extends javax.swing.JFrame {
         jLabel1.setText("00:00");
         jLabel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "time", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 11), new java.awt.Color(204, 204, 204))); // NOI18N
         jPanel1.add(jLabel1);
-        jLabel1.setBounds(990, 100, 90, 70);
+        jLabel1.setBounds(970, 100, 110, 70);
+
+        jLabel5.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
+        jLabel5.setForeground(java.awt.Color.white);
+        jLabel5.setText("Effects");
+        jPanel1.add(jLabel5);
+        jLabel5.setBounds(260, 20, 160, 40);
+        jPanel1.add(jSlider2);
+        jSlider2.setBounds(970, 20, 270, 20);
+
+        jTextField2.setText("jTextField1");
+        jPanel1.add(jTextField2);
+        jTextField2.setBounds(970, 50, 110, 40);
+
+        jTextField3.setText("jTextField1");
+        jPanel1.add(jTextField3);
+        jTextField3.setBounds(50, 110, 180, 40);
+
+        jButton1.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jButton1.setText(">");
+        jPanel1.add(jButton1);
+        jButton1.setBounds(800, 110, 40, 40);
+
+        jButton2.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jButton2.setText("<");
+        jPanel1.add(jButton2);
+        jButton2.setBounds(730, 110, 40, 40);
 
         getContentPane().add(jPanel1);
         jPanel1.setBounds(20, 20, 1290, 610);
@@ -579,17 +615,21 @@ public class javaMidiPiano extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup buttonGroup1;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JCheckBox jCheckBox1;
     private javax.swing.JCheckBox jCheckBox2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JList<String> jList1;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSlider jSlider1;
+    private javax.swing.JSlider jSlider2;
     private javax.swing.JTextField jTextField1;
+    private javax.swing.JTextField jTextField2;
+    private javax.swing.JTextField jTextField3;
     private javax.swing.JToggleButton jToggleButton1;
     private javax.swing.JToggleButton jToggleButton2;
     private javax.swing.JButton jbA;

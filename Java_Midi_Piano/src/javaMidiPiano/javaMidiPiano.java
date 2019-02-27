@@ -9,6 +9,9 @@ import sun.audio.*;
 import java.io.*;
 import javax.swing.JOptionPane;
 
+import javax.sound.midi.*;
+import java.awt.event.KeyEvent;
+
 /**
  *
  * @author HIG24
@@ -18,8 +21,37 @@ public class javaMidiPiano extends javax.swing.JFrame {
     /**
      * Creates new form javaMidiPiano
      */
+    
+    private Synthesizer synthesizer;
+    private final MidiChannel[] midiChannels;
+    private final Instrument[] instruments;
+    private int instrumentIndex = 0;
+    
     public javaMidiPiano() {
         initComponents();
+        
+        try {
+            synthesizer = MidiSystem.getSynthesizer();
+            synthesizer.open();
+        } catch (MidiUnavailableException ex) {
+            ex.printStackTrace();
+            System.exit(1);
+        }   
+
+        this.midiChannels = synthesizer.getChannels();
+
+        Soundbank bank = synthesizer.getDefaultSoundbank();
+
+        synthesizer.loadAllInstruments(bank);
+
+
+        this.instruments = synthesizer.getAvailableInstruments();
+        synthesizer.loadAllInstruments(synthesizer.getDefaultSoundbank());
+        synthesizer.getChannels()[0].programChange(instrumentIndex);
+
+        System.out.println("[STATE] MIDI channels: " + midiChannels.length);
+        System.out.println("[STATE] Instruments: " + instruments.length);
+        
     }
 
     /**
@@ -77,12 +109,18 @@ public class javaMidiPiano extends javax.swing.JFrame {
         jTextField3 = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
+        jToggleButton3 = new javax.swing.JToggleButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(null);
 
         jPanel1.setBackground(new java.awt.Color(51, 51, 51));
         jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255), 8));
+        jPanel1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jPanel1KeyPressed(evt);
+            }
+        });
         jPanel1.setLayout(null);
 
         jbcis.setBackground(java.awt.Color.black);
@@ -392,9 +430,17 @@ public class javaMidiPiano extends javax.swing.JFrame {
 
         jToggleButton1.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jToggleButton1.setForeground(java.awt.Color.darkGray);
-        jToggleButton1.setText("Metronome");
+        jToggleButton1.setText("KEY");
+        jToggleButton1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jToggleButton1KeyPressed(evt);
+            }
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jToggleButton1KeyReleased(evt);
+            }
+        });
         jPanel1.add(jToggleButton1);
-        jToggleButton1.setBounds(1100, 50, 140, 40);
+        jToggleButton1.setBounds(870, 90, 70, 60);
 
         jToggleButton2.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jToggleButton2.setForeground(java.awt.Color.darkGray);
@@ -475,6 +521,12 @@ public class javaMidiPiano extends javax.swing.JFrame {
         jPanel1.add(jButton2);
         jButton2.setBounds(730, 110, 40, 40);
 
+        jToggleButton3.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jToggleButton3.setForeground(java.awt.Color.darkGray);
+        jToggleButton3.setText("Metronome");
+        jPanel1.add(jToggleButton3);
+        jToggleButton3.setBounds(1100, 50, 140, 40);
+
         getContentPane().add(jPanel1);
         jPanel1.setBounds(20, 20, 1290, 610);
 
@@ -482,7 +534,7 @@ public class javaMidiPiano extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jbcActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbcActionPerformed
-        InputStream iAudio;
+        /*InputStream iAudio;
         
         try {
             iAudio = new FileInputStream(new File ("C:\\Javawork\\Music_Note\\C.wav"));
@@ -491,6 +543,8 @@ public class javaMidiPiano extends javax.swing.JFrame {
         } catch (IOException e){
             JOptionPane.showMessageDialog(null, e);
         }
+        */
+        midiChannels[0].noteOn(60, 100);
         
     }//GEN-LAST:event_jbcActionPerformed
 
@@ -563,7 +617,7 @@ public class javaMidiPiano extends javax.swing.JFrame {
     }//GEN-LAST:event_jToggleButton2ActionPerformed
 
     private void jbcKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jbcKeyPressed
-        InputStream iAudio;
+        /*InputStream iAudio;
         
         char c = evt.getKeyChar();
         if(c == 'd') {
@@ -575,8 +629,296 @@ public class javaMidiPiano extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null, e);
             }
         }
+        */
+        
+        int keyCode = evt.getExtendedKeyCode();
+            int noteNumber = -1;
+
+            switch (keyCode) {
+                case KeyEvent.VK_1: {
+                    noteNumber = 60;
+                    break;
+                }
+
+                case KeyEvent.VK_2: {
+                    noteNumber = 62;
+                    break;
+                }
+
+                case KeyEvent.VK_3: {
+                    noteNumber = 64;
+                    break;
+                }
+
+                case KeyEvent.VK_4: {
+                    noteNumber = 65;
+                    break;
+                }
+
+                case KeyEvent.VK_5: {
+                    noteNumber = 67;
+                    break;
+                }
+
+                case KeyEvent.VK_6: {
+                    noteNumber = 69;
+                    break;
+                }
+
+                case KeyEvent.VK_7: {
+                    noteNumber = 71;
+                    break;
+                }
+
+                case KeyEvent.VK_8: {
+                    noteNumber = 72;
+                    break;
+                }
+
+                case KeyEvent.VK_LEFT: {
+                    if (instrumentIndex == 0) {
+                        instrumentIndex = instruments.length - 1;
+                    } else {
+                        instrumentIndex--;
+                    }
+
+                    synthesizer.getChannels()[0].programChange(instrumentIndex);
+                    System.out.println("Switched to " + 
+                                       instruments[instrumentIndex].getName());
+                    break;
+                }
+
+                case KeyEvent.VK_RIGHT: {
+                    if (instrumentIndex == instruments.length - 1) {
+                        instrumentIndex = 0;
+                    } else {
+                        instrumentIndex++;
+                    }
+
+                    synthesizer.getChannels()[0].programChange(instrumentIndex);
+                    System.out.println("Switched to " + 
+                                       instruments[instrumentIndex].getName());
+                    break;
+                }
+            }
+
+            if (noteNumber != -1) {
+                midiChannels[0].noteOn(noteNumber, 600);
+            }
         
     }//GEN-LAST:event_jbcKeyPressed
+
+    private void jPanel1KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jPanel1KeyPressed
+        // TODO add your handling code here
+        int keyCode = evt.getExtendedKeyCode();
+            int noteNumber = -1;
+
+            switch (keyCode) {
+                case KeyEvent.VK_1: {
+                    noteNumber = 60;
+                    break;
+                }
+
+                case KeyEvent.VK_2: {
+                    noteNumber = 62;
+                    break;
+                }
+
+                case KeyEvent.VK_3: {
+                    noteNumber = 64;
+                    break;
+                }
+
+                case KeyEvent.VK_4: {
+                    noteNumber = 65;
+                    break;
+                }
+
+                case KeyEvent.VK_5: {
+                    noteNumber = 67;
+                    break;
+                }
+
+                case KeyEvent.VK_6: {
+                    noteNumber = 69;
+                    break;
+                }
+
+                case KeyEvent.VK_7: {
+                    noteNumber = 71;
+                    break;
+                }
+
+                case KeyEvent.VK_8: {
+                    noteNumber = 72;
+                    break;
+                }
+
+                case KeyEvent.VK_LEFT: {
+                    if (instrumentIndex == 0) {
+                        instrumentIndex = instruments.length - 1;
+                    } else {
+                        instrumentIndex--;
+                    }
+
+                    synthesizer.getChannels()[0].programChange(instrumentIndex);
+                    System.out.println("Switched to " + 
+                                       instruments[instrumentIndex].getName());
+                    break;
+                }
+
+                case KeyEvent.VK_RIGHT: {
+                    if (instrumentIndex == instruments.length - 1) {
+                        instrumentIndex = 0;
+                    } else {
+                        instrumentIndex++;
+                    }
+
+                    synthesizer.getChannels()[0].programChange(instrumentIndex);
+                    System.out.println("Switched to " + 
+                                       instruments[instrumentIndex].getName());
+                    break;
+                }
+            }
+
+            if (noteNumber != -1) {
+                midiChannels[0].noteOn(noteNumber, 600);
+            }
+    }//GEN-LAST:event_jPanel1KeyPressed
+
+    private void jToggleButton1KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jToggleButton1KeyPressed
+        // TODO add your handling code here:
+        
+        int keyCode = evt.getExtendedKeyCode();
+            int noteNumber = -1;
+
+            switch (keyCode) {
+                case KeyEvent.VK_1: {
+                    noteNumber = 60;
+                    break;
+                }
+
+                case KeyEvent.VK_2: {
+                    noteNumber = 62;
+                    break;
+                }
+
+                case KeyEvent.VK_3: {
+                    noteNumber = 64;
+                    break;
+                }
+
+                case KeyEvent.VK_4: {
+                    noteNumber = 65;
+                    break;
+                }
+
+                case KeyEvent.VK_5: {
+                    noteNumber = 67;
+                    break;
+                }
+
+                case KeyEvent.VK_6: {
+                    noteNumber = 69;
+                    break;
+                }
+
+                case KeyEvent.VK_7: {
+                    noteNumber = 71;
+                    break;
+                }
+
+                case KeyEvent.VK_8: {
+                    noteNumber = 72;
+                    break;
+                }
+
+                case KeyEvent.VK_LEFT: {
+                    if (instrumentIndex == 0) {
+                        instrumentIndex = instruments.length - 1;
+                    } else {
+                        instrumentIndex--;
+                    }
+
+                    synthesizer.getChannels()[0].programChange(instrumentIndex);
+                    System.out.println("Switched to " + 
+                                       instruments[instrumentIndex].getName());
+                    break;
+                }
+
+                case KeyEvent.VK_RIGHT: {
+                    if (instrumentIndex == instruments.length - 1) {
+                        instrumentIndex = 0;
+                    } else {
+                        instrumentIndex++;
+                    }
+
+                    synthesizer.getChannels()[0].programChange(instrumentIndex);
+                    System.out.println("Switched to " + 
+                                       instruments[instrumentIndex].getName());
+                    break;
+                }
+            }
+
+            if (noteNumber != -1) {
+                midiChannels[0].noteOn(noteNumber, 600);
+            }
+        
+    }//GEN-LAST:event_jToggleButton1KeyPressed
+
+    private void jToggleButton1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jToggleButton1KeyReleased
+        // TODO add your handling code here:
+        
+        int keyCode = evt.getExtendedKeyCode();
+            int noteNumber = -1;
+
+            switch (keyCode) {
+                case KeyEvent.VK_1: {
+                    noteNumber = 60;
+                    break;
+                }
+
+                case KeyEvent.VK_2: {
+                    noteNumber = 62;
+                    break;
+                }
+
+                case KeyEvent.VK_3: {
+                    noteNumber = 64;
+                    break;
+                }
+
+                case KeyEvent.VK_4: {
+                    noteNumber = 65;
+                    break;
+                }
+
+                case KeyEvent.VK_5: {
+                    noteNumber = 67;
+                    break;
+                }
+
+                case KeyEvent.VK_6: {
+                    noteNumber = 69;
+                    break;
+                }
+
+                case KeyEvent.VK_7: {
+                    noteNumber = 71;
+                    break;
+                }
+
+                case KeyEvent.VK_8: {
+                    noteNumber = 72;
+                    break;
+                }
+            }
+
+            if (noteNumber != -1) {
+                midiChannels[0].noteOff(noteNumber, 600);
+            }
+        
+    }//GEN-LAST:event_jToggleButton1KeyReleased
 
     /**
      * @param args the command line arguments
@@ -632,6 +974,7 @@ public class javaMidiPiano extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField3;
     private javax.swing.JToggleButton jToggleButton1;
     private javax.swing.JToggleButton jToggleButton2;
+    private javax.swing.JToggleButton jToggleButton3;
     private javax.swing.JButton jbA;
     private javax.swing.JButton jbAis;
     private javax.swing.JButton jbH;

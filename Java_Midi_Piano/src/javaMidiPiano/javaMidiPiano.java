@@ -7,6 +7,10 @@ package javaMidiPiano;
 
 import javax.sound.midi.*;
 import java.awt.event.KeyEvent;
+import sun.audio.*;
+import java.io.*;
+import javax.swing.JOptionPane;
+import java.lang.*;
 
 /**
  *
@@ -571,9 +575,13 @@ public class javaMidiPiano extends javax.swing.JFrame {
             }
         });
         jPanelMain.add(jToggleButtonRecorder);
-        jToggleButtonRecorder.setBounds(1100, 120, 140, 40);
+        jToggleButtonRecorder.setBounds(1100, 120, 140, 50);
 
-        jTextSoundDisplay.setText("jTextField1");
+        jTextSoundDisplay.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jTextSoundDisplay.setForeground(java.awt.Color.red);
+        jTextSoundDisplay.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        jTextSoundDisplay.setText("Piano");
+        jTextSoundDisplay.setEnabled(false);
         jPanelMain.add(jTextSoundDisplay);
         jTextSoundDisplay.setBounds(450, 110, 260, 40);
 
@@ -607,19 +615,38 @@ public class javaMidiPiano extends javax.swing.JFrame {
         jLabel1.setText("00:00");
         jLabel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "time", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 11), new java.awt.Color(204, 204, 204))); // NOI18N
         jPanelMain.add(jLabel1);
-        jLabel1.setBounds(970, 100, 110, 70);
+        jLabel1.setBounds(970, 110, 110, 60);
 
         jLabelKeypressPlay.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         jLabelKeypressPlay.setForeground(java.awt.Color.white);
         jLabelKeypressPlay.setText("Keypress Play");
         jPanelMain.add(jLabelKeypressPlay);
         jLabelKeypressPlay.setBounds(50, 20, 180, 40);
-        jPanelMain.add(jSliderBpmValue);
-        jSliderBpmValue.setBounds(970, 20, 270, 20);
 
-        jTextFieldBpmDisplay.setText("jTextField1");
+        jSliderBpmValue.setBackground(java.awt.Color.white);
+        jSliderBpmValue.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jSliderBpmValue.setForeground(java.awt.Color.white);
+        jSliderBpmValue.setMajorTickSpacing(20);
+        jSliderBpmValue.setMaximum(160);
+        jSliderBpmValue.setMinorTickSpacing(10);
+        jSliderBpmValue.setPaintLabels(true);
+        jSliderBpmValue.setPaintTicks(true);
+        jSliderBpmValue.setToolTipText("");
+        jSliderBpmValue.setValue(100);
+        jSliderBpmValue.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                jSliderBpmValueStateChanged(evt);
+            }
+        });
+        jPanelMain.add(jSliderBpmValue);
+        jSliderBpmValue.setBounds(970, 19, 270, 50);
+
+        jTextFieldBpmDisplay.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jTextFieldBpmDisplay.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        jTextFieldBpmDisplay.setText("100 bpm");
+        jTextFieldBpmDisplay.setEnabled(false);
         jPanelMain.add(jTextFieldBpmDisplay);
-        jTextFieldBpmDisplay.setBounds(970, 50, 110, 40);
+        jTextFieldBpmDisplay.setBounds(970, 70, 110, 40);
 
         jButtonSoundNext.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jButtonSoundNext.setText(">");
@@ -647,8 +674,13 @@ public class javaMidiPiano extends javax.swing.JFrame {
         jToggleButtonMetronome.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jToggleButtonMetronome.setForeground(java.awt.Color.darkGray);
         jToggleButtonMetronome.setText("Metronome");
+        jToggleButtonMetronome.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jToggleButtonMetronomeActionPerformed(evt);
+            }
+        });
         jPanelMain.add(jToggleButtonMetronome);
-        jToggleButtonMetronome.setBounds(1100, 50, 140, 40);
+        jToggleButtonMetronome.setBounds(1100, 70, 140, 40);
 
         jButtonSoundBack.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jButtonSoundBack.setText("<");
@@ -857,6 +889,7 @@ public class javaMidiPiano extends javax.swing.JFrame {
 
                 synthesizer.getChannels()[0].programChange(instrumentIndex);
                 System.out.println("Switched to " + instruments[instrumentIndex].getName());
+                jTextSoundDisplay.setText(instruments[instrumentIndex].getName());
                 break;
             }
 
@@ -869,6 +902,7 @@ public class javaMidiPiano extends javax.swing.JFrame {
 
                 synthesizer.getChannels()[0].programChange(instrumentIndex);
                 System.out.println("Switched to " + instruments[instrumentIndex].getName());
+                jTextSoundDisplay.setText(instruments[instrumentIndex].getName());
                 break;
                 }
             }
@@ -1367,6 +1401,10 @@ public class javaMidiPiano extends javax.swing.JFrame {
         midiChannels[0].noteOff(82, 600);
     }//GEN-LAST:event_jbais1MouseReleased
 
+    /*
+        INSTRUMENT CHANGING BUTTON SECTION
+    */
+    
     private void jButtonSoundBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSoundBackActionPerformed
         // TODO add your handling code here:
         if (instrumentIndex == 0) {
@@ -1376,6 +1414,7 @@ public class javaMidiPiano extends javax.swing.JFrame {
         }
         synthesizer.getChannels()[0].programChange(instrumentIndex);
         System.out.println("Switched to " + instruments[instrumentIndex].getName());
+        jTextSoundDisplay.setText(instruments[instrumentIndex].getName());
     }//GEN-LAST:event_jButtonSoundBackActionPerformed
 
     private void jButtonSoundNextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSoundNextActionPerformed
@@ -1387,7 +1426,44 @@ public class javaMidiPiano extends javax.swing.JFrame {
         }
         synthesizer.getChannels()[0].programChange(instrumentIndex);
         System.out.println("Switched to " + instruments[instrumentIndex].getName());
+        jTextSoundDisplay.setText(instruments[instrumentIndex].getName());
     }//GEN-LAST:event_jButtonSoundNextActionPerformed
+
+    private void jSliderBpmValueStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jSliderBpmValueStateChanged
+        // TODO add your handling code here:
+        jTextFieldBpmDisplay.setText("" + jSliderBpmValue.getValue() + " bpm");
+    }//GEN-LAST:event_jSliderBpmValueStateChanged
+
+    /*
+        METRONOME SECTION
+    */
+    
+    private void jToggleButtonMetronomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButtonMetronomeActionPerformed
+        // TODO add your handling code here:
+        InputStream iAudio;
+        
+        if(jToggleButtonMetronome.isSelected()){           
+            try {
+                
+                int x = 0;
+                    
+                while(jToggleButtonMetronome.isSelected() && x<10) {
+                    
+                    iAudio = new FileInputStream(new File ("C:\\Javawork\\Music_Note\\tik.wav"));
+                    AudioStream iMusic = new AudioStream(iAudio);
+                    AudioPlayer.player.start(iMusic);
+                    try {
+                        Thread.sleep(60000/jSliderBpmValue.getValue());
+                    } catch(Exception e) {
+                        System.out.println(e);
+                    }
+                    x++;
+                }
+            } catch (IOException e) {
+                JOptionPane.showMessageDialog(null, e);
+            }
+        }
+    }//GEN-LAST:event_jToggleButtonMetronomeActionPerformed
 
     /**
      * @param args the command line arguments

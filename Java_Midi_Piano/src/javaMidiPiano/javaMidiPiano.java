@@ -5,10 +5,6 @@
  */
 package javaMidiPiano;
 
-import sun.audio.*;
-import java.io.*;
-import javax.swing.JOptionPane;
-
 import javax.sound.midi.*;
 import java.awt.event.KeyEvent;
 
@@ -29,6 +25,8 @@ public class javaMidiPiano extends javax.swing.JFrame {
     
     public javaMidiPiano() {
         initComponents();
+        setSize(1350,685);
+        setTitle("Java Midi Piano");
         
         try {
             synthesizer = MidiSystem.getSynthesizer();
@@ -64,7 +62,7 @@ public class javaMidiPiano extends javax.swing.JFrame {
     private void initComponents() {
 
         buttonGroup1 = new javax.swing.ButtonGroup();
-        jPanel1 = new javax.swing.JPanel();
+        jPanelMain = new javax.swing.JPanel();
         jbcis = new javax.swing.JButton();
         jbc = new javax.swing.JButton();
         jbdis = new javax.swing.JButton();
@@ -93,41 +91,43 @@ public class javaMidiPiano extends javax.swing.JFrame {
         jba1 = new javax.swing.JButton();
         jbh1 = new javax.swing.JButton();
         jbc1 = new javax.swing.JButton();
-        jSlider1 = new javax.swing.JSlider();
-        jToggleButton1 = new javax.swing.JToggleButton();
-        jToggleButton2 = new javax.swing.JToggleButton();
-        jTextField1 = new javax.swing.JTextField();
-        jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
-        jCheckBox1 = new javax.swing.JCheckBox();
-        jCheckBox2 = new javax.swing.JCheckBox();
-        jLabel4 = new javax.swing.JLabel();
+        jToggleButtonRecorder = new javax.swing.JToggleButton();
+        jTextSoundDisplay = new javax.swing.JTextField();
+        jLabelTitle = new javax.swing.JLabel();
+        jCheckIbratoEff = new javax.swing.JCheckBox();
+        jCheckSustainEff = new javax.swing.JCheckBox();
+        jLabelSounds = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
-        jSlider2 = new javax.swing.JSlider();
-        jTextField2 = new javax.swing.JTextField();
-        jTextField3 = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jToggleButton3 = new javax.swing.JToggleButton();
+        jLabelKeypressPlay = new javax.swing.JLabel();
+        jSliderBpmValue = new javax.swing.JSlider();
+        jTextFieldBpmDisplay = new javax.swing.JTextField();
+        jButtonSoundNext = new javax.swing.JButton();
+        jButtonKeyFocus = new javax.swing.JButton();
+        jToggleButtonMetronome = new javax.swing.JToggleButton();
+        jButtonSoundBack = new javax.swing.JButton();
+        jLabelEffects = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(null);
 
-        jPanel1.setBackground(new java.awt.Color(51, 51, 51));
-        jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255), 8));
-        jPanel1.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                jPanel1KeyPressed(evt);
-            }
-        });
-        jPanel1.setLayout(null);
+        jPanelMain.setBackground(new java.awt.Color(51, 51, 51));
+        jPanelMain.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255), 8));
+        jPanelMain.setLayout(null);
 
         jbcis.setBackground(java.awt.Color.black);
-        jbcis.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
+        jbcis.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jbcis.setForeground(java.awt.Color.white);
+        jbcis.setText("f");
         jbcis.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
-        jPanel1.add(jbcis);
+        jbcis.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                jbcisMousePressed(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                jbcisMouseReleased(evt);
+            }
+        });
+        jPanelMain.add(jbcis);
         jbcis.setBounds(240, 180, 40, 250);
 
         jbc.setBackground(java.awt.Color.white);
@@ -135,790 +135,1259 @@ public class javaMidiPiano extends javax.swing.JFrame {
         jbc.setForeground(java.awt.Color.gray);
         jbc.setText("c");
         jbc.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
-        jbc.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jbcActionPerformed(evt);
+        jbc.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                jbcMousePressed(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                jbcMouseReleased(evt);
             }
         });
-        jbc.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                jbcKeyPressed(evt);
-            }
-        });
-        jPanel1.add(jbc);
+        jPanelMain.add(jbc);
         jbc.setBounds(190, 180, 70, 390);
 
         jbdis.setBackground(java.awt.Color.black);
-        jbdis.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
+        jbdis.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jbdis.setForeground(java.awt.Color.white);
+        jbdis.setText("g");
         jbdis.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
-        jPanel1.add(jbdis);
+        jbdis.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                jbdisMousePressed(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                jbdisMouseReleased(evt);
+            }
+        });
+        jPanelMain.add(jbdis);
         jbdis.setBounds(310, 180, 40, 250);
 
         jbe.setBackground(java.awt.Color.white);
         jbe.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         jbe.setForeground(java.awt.Color.gray);
-        jbe.setText("e");
+        jbe.setText("b");
         jbe.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
-        jbe.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jbeActionPerformed(evt);
+        jbe.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                jbeMousePressed(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                jbeMouseReleased(evt);
             }
         });
-        jPanel1.add(jbe);
+        jPanelMain.add(jbe);
         jbe.setBounds(330, 180, 70, 390);
 
         jbd.setBackground(java.awt.Color.white);
         jbd.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         jbd.setForeground(java.awt.Color.gray);
-        jbd.setText("d");
+        jbd.setText("v");
         jbd.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
-        jbd.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jbdActionPerformed(evt);
+        jbd.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                jbdMousePressed(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                jbdMouseReleased(evt);
             }
         });
-        jPanel1.add(jbd);
+        jPanelMain.add(jbd);
         jbd.setBounds(260, 180, 70, 390);
 
         jbfis.setBackground(java.awt.Color.black);
-        jbfis.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
+        jbfis.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jbfis.setForeground(java.awt.Color.white);
+        jbfis.setText("j");
         jbfis.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
-        jPanel1.add(jbfis);
+        jbfis.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                jbfisMousePressed(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                jbfisMouseReleased(evt);
+            }
+        });
+        jPanelMain.add(jbfis);
         jbfis.setBounds(450, 180, 40, 250);
 
         jbf.setBackground(java.awt.Color.white);
         jbf.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         jbf.setForeground(java.awt.Color.gray);
-        jbf.setText("f");
+        jbf.setText("n");
         jbf.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
-        jbf.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jbfActionPerformed(evt);
+        jbf.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                jbfMousePressed(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                jbfMouseReleased(evt);
             }
         });
-        jPanel1.add(jbf);
+        jPanelMain.add(jbf);
         jbf.setBounds(400, 180, 70, 390);
 
         jbgis.setBackground(java.awt.Color.black);
-        jbgis.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
+        jbgis.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jbgis.setForeground(java.awt.Color.white);
+        jbgis.setText("k");
         jbgis.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
-        jPanel1.add(jbgis);
+        jbgis.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                jbgisMousePressed(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                jbgisMouseReleased(evt);
+            }
+        });
+        jPanelMain.add(jbgis);
         jbgis.setBounds(520, 180, 40, 250);
 
         jbg.setBackground(java.awt.Color.white);
         jbg.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         jbg.setForeground(java.awt.Color.gray);
-        jbg.setText("g");
+        jbg.setText("m");
         jbg.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
-        jbg.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jbgActionPerformed(evt);
+        jbg.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                jbgMousePressed(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                jbgMouseReleased(evt);
             }
         });
-        jPanel1.add(jbg);
+        jPanelMain.add(jbg);
         jbg.setBounds(470, 180, 70, 390);
 
         jbais.setBackground(java.awt.Color.black);
-        jbais.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
+        jbais.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jbais.setForeground(java.awt.Color.white);
+        jbais.setText("l");
         jbais.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
-        jPanel1.add(jbais);
+        jbais.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                jbaisMousePressed(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                jbaisMouseReleased(evt);
+            }
+        });
+        jPanelMain.add(jbais);
         jbais.setBounds(590, 180, 40, 250);
 
         jba.setBackground(java.awt.Color.white);
         jba.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         jba.setForeground(java.awt.Color.gray);
-        jba.setText("a");
+        jba.setText(", q");
         jba.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
-        jba.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jbaActionPerformed(evt);
+        jba.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                jbaMousePressed(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                jbaMouseReleased(evt);
             }
         });
-        jPanel1.add(jba);
+        jPanelMain.add(jba);
         jba.setBounds(540, 180, 70, 390);
 
         jbh.setBackground(java.awt.Color.white);
         jbh.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         jbh.setForeground(java.awt.Color.gray);
-        jbh.setText("h");
+        jbh.setText(". w");
         jbh.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
-        jbh.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jbhActionPerformed(evt);
+        jbh.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                jbhMousePressed(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                jbhMouseReleased(evt);
             }
         });
-        jPanel1.add(jbh);
+        jPanelMain.add(jbh);
         jbh.setBounds(610, 180, 70, 390);
 
         jbAis.setBackground(java.awt.Color.black);
-        jbAis.setFont(new java.awt.Font("Tahoma", 1, 8)); // NOI18N
+        jbAis.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jbAis.setForeground(java.awt.Color.white);
+        jbAis.setText("s");
         jbAis.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
-        jPanel1.add(jbAis);
+        jbAis.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                jbAisMousePressed(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                jbAisMouseReleased(evt);
+            }
+        });
+        jPanelMain.add(jbAis);
         jbAis.setBounds(100, 180, 40, 250);
 
         jbA.setBackground(java.awt.Color.white);
         jbA.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         jbA.setForeground(java.awt.Color.gray);
-        jbA.setText("A");
+        jbA.setText("z");
         jbA.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
-        jbA.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jbAActionPerformed(evt);
+        jbA.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                jbAMousePressed(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                jbAMouseReleased(evt);
             }
         });
-        jPanel1.add(jbA);
+        jPanelMain.add(jbA);
         jbA.setBounds(50, 180, 70, 390);
 
         jbH.setBackground(java.awt.Color.white);
         jbH.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         jbH.setForeground(java.awt.Color.gray);
-        jbH.setText("H");
+        jbH.setText("x");
         jbH.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
-        jbH.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jbHActionPerformed(evt);
+        jbH.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                jbHMousePressed(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                jbHMouseReleased(evt);
             }
         });
-        jPanel1.add(jbH);
+        jPanelMain.add(jbH);
         jbH.setBounds(120, 180, 70, 390);
 
         jbc2.setBackground(java.awt.Color.white);
         jbc2.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         jbc2.setForeground(java.awt.Color.gray);
-        jbc2.setText("c2");
+        jbc2.setText("p");
         jbc2.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
-        jbc2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jbc2ActionPerformed(evt);
+        jbc2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                jbc2MousePressed(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                jbc2MouseReleased(evt);
             }
         });
-        jPanel1.add(jbc2);
+        jPanelMain.add(jbc2);
         jbc2.setBounds(1170, 180, 70, 390);
 
         jbcis1.setBackground(java.awt.Color.black);
-        jbcis1.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
+        jbcis1.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jbcis1.setForeground(java.awt.Color.white);
+        jbcis1.setText("4");
         jbcis1.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
-        jPanel1.add(jbcis1);
+        jbcis1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                jbcis1MousePressed(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                jbcis1MouseReleased(evt);
+            }
+        });
+        jPanelMain.add(jbcis1);
         jbcis1.setBounds(730, 180, 40, 250);
 
         jbdis1.setBackground(java.awt.Color.black);
-        jbdis1.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
+        jbdis1.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jbdis1.setForeground(java.awt.Color.white);
+        jbdis1.setText("5");
         jbdis1.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
-        jPanel1.add(jbdis1);
+        jbdis1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                jbdis1MousePressed(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                jbdis1MouseReleased(evt);
+            }
+        });
+        jPanelMain.add(jbdis1);
         jbdis1.setBounds(800, 180, 40, 250);
 
         jbd1.setBackground(java.awt.Color.white);
         jbd1.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         jbd1.setForeground(java.awt.Color.gray);
-        jbd1.setText("d1");
+        jbd1.setText("r");
         jbd1.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
-        jbd1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jbd1ActionPerformed(evt);
+        jbd1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                jbd1MousePressed(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                jbd1MouseReleased(evt);
             }
         });
-        jPanel1.add(jbd1);
+        jPanelMain.add(jbd1);
         jbd1.setBounds(750, 180, 70, 390);
 
         jbe1.setBackground(java.awt.Color.white);
         jbe1.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         jbe1.setForeground(java.awt.Color.gray);
-        jbe1.setText("e1");
+        jbe1.setText("t");
         jbe1.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
-        jbe1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jbe1ActionPerformed(evt);
+        jbe1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                jbe1MousePressed(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                jbe1MouseReleased(evt);
             }
         });
-        jPanel1.add(jbe1);
+        jPanelMain.add(jbe1);
         jbe1.setBounds(820, 180, 70, 390);
 
         jbfis1.setBackground(java.awt.Color.black);
-        jbfis1.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
+        jbfis1.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jbfis1.setForeground(java.awt.Color.white);
+        jbfis1.setText("7");
         jbfis1.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
-        jPanel1.add(jbfis1);
+        jbfis1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                jbfis1MousePressed(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                jbfis1MouseReleased(evt);
+            }
+        });
+        jPanelMain.add(jbfis1);
         jbfis1.setBounds(940, 180, 40, 250);
 
         jbf1.setBackground(java.awt.Color.white);
         jbf1.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         jbf1.setForeground(java.awt.Color.gray);
-        jbf1.setText("f1");
+        jbf1.setText("y");
         jbf1.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
-        jbf1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jbf1ActionPerformed(evt);
+        jbf1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                jbf1MousePressed(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                jbf1MouseReleased(evt);
             }
         });
-        jPanel1.add(jbf1);
+        jPanelMain.add(jbf1);
         jbf1.setBounds(890, 180, 70, 390);
 
         jbgis1.setBackground(java.awt.Color.black);
-        jbgis1.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
+        jbgis1.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jbgis1.setForeground(java.awt.Color.white);
+        jbgis1.setText("8");
         jbgis1.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
-        jPanel1.add(jbgis1);
+        jbgis1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                jbgis1MousePressed(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                jbgis1MouseReleased(evt);
+            }
+        });
+        jPanelMain.add(jbgis1);
         jbgis1.setBounds(1010, 180, 40, 250);
 
         jbg1.setBackground(java.awt.Color.white);
         jbg1.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         jbg1.setForeground(java.awt.Color.gray);
-        jbg1.setText("g1");
+        jbg1.setText("u");
         jbg1.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
-        jbg1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jbg1ActionPerformed(evt);
+        jbg1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                jbg1MousePressed(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                jbg1MouseReleased(evt);
             }
         });
-        jPanel1.add(jbg1);
+        jPanelMain.add(jbg1);
         jbg1.setBounds(960, 180, 70, 390);
 
         jbais1.setBackground(java.awt.Color.black);
-        jbais1.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
+        jbais1.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jbais1.setForeground(java.awt.Color.white);
+        jbais1.setText("9");
         jbais1.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
-        jPanel1.add(jbais1);
+        jbais1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                jbais1MousePressed(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                jbais1MouseReleased(evt);
+            }
+        });
+        jPanelMain.add(jbais1);
         jbais1.setBounds(1080, 180, 40, 250);
 
         jba1.setBackground(java.awt.Color.white);
         jba1.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         jba1.setForeground(java.awt.Color.gray);
-        jba1.setText("a1");
+        jba1.setText("i");
         jba1.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
-        jba1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jba1ActionPerformed(evt);
+        jba1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                jba1MousePressed(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                jba1MouseReleased(evt);
             }
         });
-        jPanel1.add(jba1);
+        jPanelMain.add(jba1);
         jba1.setBounds(1030, 180, 70, 390);
 
         jbh1.setBackground(java.awt.Color.white);
         jbh1.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         jbh1.setForeground(java.awt.Color.gray);
-        jbh1.setText("h1");
+        jbh1.setText("o");
         jbh1.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
-        jbh1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jbh1ActionPerformed(evt);
+        jbh1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                jbh1MousePressed(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                jbh1MouseReleased(evt);
             }
         });
-        jPanel1.add(jbh1);
+        jPanelMain.add(jbh1);
         jbh1.setBounds(1100, 180, 70, 390);
 
         jbc1.setBackground(java.awt.Color.white);
         jbc1.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         jbc1.setForeground(java.awt.Color.gray);
-        jbc1.setText("c1");
+        jbc1.setText("/ e");
         jbc1.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
-        jbc1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jbc1ActionPerformed(evt);
+        jbc1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                jbc1MousePressed(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                jbc1MouseReleased(evt);
             }
         });
-        jPanel1.add(jbc1);
+        jPanelMain.add(jbc1);
         jbc1.setBounds(680, 180, 70, 390);
-        jPanel1.add(jSlider1);
-        jSlider1.setBounds(50, 60, 180, 40);
 
-        jToggleButton1.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        jToggleButton1.setForeground(java.awt.Color.darkGray);
-        jToggleButton1.setText("KEY");
-        jToggleButton1.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                jToggleButton1KeyPressed(evt);
-            }
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                jToggleButton1KeyReleased(evt);
-            }
-        });
-        jPanel1.add(jToggleButton1);
-        jToggleButton1.setBounds(870, 90, 70, 60);
-
-        jToggleButton2.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        jToggleButton2.setForeground(java.awt.Color.darkGray);
-        jToggleButton2.setText("Recorder");
-        jToggleButton2.addActionListener(new java.awt.event.ActionListener() {
+        jToggleButtonRecorder.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jToggleButtonRecorder.setForeground(java.awt.Color.darkGray);
+        jToggleButtonRecorder.setText("Recorder");
+        jToggleButtonRecorder.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jToggleButton2ActionPerformed(evt);
+                jToggleButtonRecorderActionPerformed(evt);
             }
         });
-        jPanel1.add(jToggleButton2);
-        jToggleButton2.setBounds(1100, 120, 140, 40);
+        jPanelMain.add(jToggleButtonRecorder);
+        jToggleButtonRecorder.setBounds(1100, 120, 140, 40);
 
-        jTextField1.setText("jTextField1");
-        jPanel1.add(jTextField1);
-        jTextField1.setBounds(450, 110, 260, 40);
+        jTextSoundDisplay.setText("jTextField1");
+        jPanelMain.add(jTextSoundDisplay);
+        jTextSoundDisplay.setBounds(450, 110, 260, 40);
 
-        jLabel2.setFont(new java.awt.Font("Tahoma", 1, 50)); // NOI18N
-        jLabel2.setForeground(java.awt.Color.white);
-        jLabel2.setText("Java Midi Piano");
-        jPanel1.add(jLabel2);
-        jLabel2.setBounds(450, -20, 450, 110);
+        jLabelTitle.setFont(new java.awt.Font("Tahoma", 1, 50)); // NOI18N
+        jLabelTitle.setForeground(java.awt.Color.white);
+        jLabelTitle.setText("Java Midi Piano");
+        jPanelMain.add(jLabelTitle);
+        jLabelTitle.setBounds(450, -20, 450, 110);
 
-        jLabel3.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
-        jLabel3.setForeground(java.awt.Color.white);
-        jLabel3.setText("Master Vol.");
-        jPanel1.add(jLabel3);
-        jLabel3.setBounds(50, 20, 160, 40);
+        jCheckIbratoEff.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        jCheckIbratoEff.setForeground(java.awt.Color.white);
+        jCheckIbratoEff.setText(" Vibrato");
+        jPanelMain.add(jCheckIbratoEff);
+        jCheckIbratoEff.setBounds(260, 110, 140, 40);
 
-        jCheckBox1.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
-        jCheckBox1.setForeground(java.awt.Color.white);
-        jCheckBox1.setText(" Vibrato");
-        jPanel1.add(jCheckBox1);
-        jCheckBox1.setBounds(260, 110, 140, 40);
+        jCheckSustainEff.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        jCheckSustainEff.setForeground(java.awt.Color.white);
+        jCheckSustainEff.setText(" Sustain");
+        jPanelMain.add(jCheckSustainEff);
+        jCheckSustainEff.setBounds(260, 60, 140, 40);
 
-        jCheckBox2.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
-        jCheckBox2.setForeground(java.awt.Color.white);
-        jCheckBox2.setText(" Echo");
-        jPanel1.add(jCheckBox2);
-        jCheckBox2.setBounds(260, 60, 140, 40);
-
-        jLabel4.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
-        jLabel4.setForeground(java.awt.Color.white);
-        jLabel4.setText("Sounds Menu");
-        jPanel1.add(jLabel4);
-        jLabel4.setBounds(450, 70, 160, 40);
+        jLabelSounds.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
+        jLabelSounds.setForeground(java.awt.Color.white);
+        jLabelSounds.setText("Sounds Menu");
+        jPanelMain.add(jLabelSounds);
+        jLabelSounds.setBounds(450, 70, 160, 40);
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel1.setForeground(java.awt.Color.white);
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("00:00");
         jLabel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "time", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 11), new java.awt.Color(204, 204, 204))); // NOI18N
-        jPanel1.add(jLabel1);
+        jPanelMain.add(jLabel1);
         jLabel1.setBounds(970, 100, 110, 70);
 
-        jLabel5.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
-        jLabel5.setForeground(java.awt.Color.white);
-        jLabel5.setText("Effects");
-        jPanel1.add(jLabel5);
-        jLabel5.setBounds(260, 20, 160, 40);
-        jPanel1.add(jSlider2);
-        jSlider2.setBounds(970, 20, 270, 20);
+        jLabelKeypressPlay.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
+        jLabelKeypressPlay.setForeground(java.awt.Color.white);
+        jLabelKeypressPlay.setText("Keypress Play");
+        jPanelMain.add(jLabelKeypressPlay);
+        jLabelKeypressPlay.setBounds(50, 20, 180, 40);
+        jPanelMain.add(jSliderBpmValue);
+        jSliderBpmValue.setBounds(970, 20, 270, 20);
 
-        jTextField2.setText("jTextField1");
-        jPanel1.add(jTextField2);
-        jTextField2.setBounds(970, 50, 110, 40);
+        jTextFieldBpmDisplay.setText("jTextField1");
+        jPanelMain.add(jTextFieldBpmDisplay);
+        jTextFieldBpmDisplay.setBounds(970, 50, 110, 40);
 
-        jTextField3.setText("jTextField1");
-        jPanel1.add(jTextField3);
-        jTextField3.setBounds(50, 110, 180, 40);
+        jButtonSoundNext.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jButtonSoundNext.setText(">");
+        jButtonSoundNext.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonSoundNextActionPerformed(evt);
+            }
+        });
+        jPanelMain.add(jButtonSoundNext);
+        jButtonSoundNext.setBounds(800, 110, 40, 40);
 
-        jButton1.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jButton1.setText(">");
-        jPanel1.add(jButton1);
-        jButton1.setBounds(800, 110, 40, 40);
+        jButtonKeyFocus.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jButtonKeyFocus.setText("FOCUS");
+        jButtonKeyFocus.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jButtonKeyFocusKeyPressed(evt);
+            }
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jButtonKeyFocusKeyReleased(evt);
+            }
+        });
+        jPanelMain.add(jButtonKeyFocus);
+        jButtonKeyFocus.setBounds(70, 80, 100, 50);
 
-        jButton2.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jButton2.setText("<");
-        jPanel1.add(jButton2);
-        jButton2.setBounds(730, 110, 40, 40);
+        jToggleButtonMetronome.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jToggleButtonMetronome.setForeground(java.awt.Color.darkGray);
+        jToggleButtonMetronome.setText("Metronome");
+        jPanelMain.add(jToggleButtonMetronome);
+        jToggleButtonMetronome.setBounds(1100, 50, 140, 40);
 
-        jToggleButton3.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        jToggleButton3.setForeground(java.awt.Color.darkGray);
-        jToggleButton3.setText("Metronome");
-        jPanel1.add(jToggleButton3);
-        jToggleButton3.setBounds(1100, 50, 140, 40);
+        jButtonSoundBack.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jButtonSoundBack.setText("<");
+        jButtonSoundBack.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonSoundBackActionPerformed(evt);
+            }
+        });
+        jPanelMain.add(jButtonSoundBack);
+        jButtonSoundBack.setBounds(730, 110, 40, 40);
 
-        getContentPane().add(jPanel1);
-        jPanel1.setBounds(20, 20, 1290, 610);
+        jLabelEffects.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
+        jLabelEffects.setForeground(java.awt.Color.white);
+        jLabelEffects.setText("Effects");
+        jPanelMain.add(jLabelEffects);
+        jLabelEffects.setBounds(260, 20, 160, 40);
+
+        getContentPane().add(jPanelMain);
+        jPanelMain.setBounds(20, 20, 1290, 610);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jbcActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbcActionPerformed
-        /*InputStream iAudio;
+    private void jToggleButtonRecorderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButtonRecorderActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jToggleButtonRecorderActionPerformed
+
+    /*
+        KEYBOARD PLAYING SECTION
+    */
+    
+    private void jButtonKeyFocusKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jButtonKeyFocusKeyPressed
+        // TODO add your handling code here:
         
-        try {
-            iAudio = new FileInputStream(new File ("C:\\Javawork\\Music_Note\\C.wav"));
-            AudioStream iMusic = new AudioStream(iAudio);
-            AudioPlayer.player.start(iMusic );
-        } catch (IOException e){
-            JOptionPane.showMessageDialog(null, e);
+        int keyCode = evt.getExtendedKeyCode();
+        int noteNumber = -1;
+
+        switch (keyCode) {
+
+            case KeyEvent.VK_Z: { // A - Z
+                noteNumber = 57;
+                break;
+            }
+            
+            case KeyEvent.VK_S: { // Ais - S
+                noteNumber = 58;
+                break;
+            }
+            
+            case KeyEvent.VK_X: { // H - X
+                noteNumber = 59;
+                break;
+            }
+            
+            case KeyEvent.VK_C: { // c - C
+                noteNumber = 60;
+                break;
+            }
+            
+            case KeyEvent.VK_F: { // cis - F
+                noteNumber = 61;
+                break;
+            }
+
+            case KeyEvent.VK_V: { // d - V
+                noteNumber = 62;
+                break;
+            }
+            
+            case KeyEvent.VK_G: { // dis - G
+                noteNumber = 63;
+                break;
+            }
+
+            case KeyEvent.VK_B: { // e - B
+                noteNumber = 64;
+                break;
+            }
+
+            case KeyEvent.VK_N: { // f - N
+                noteNumber = 65;
+                break;
+            }
+
+            case KeyEvent.VK_J: { // fis - J
+                noteNumber = 66;
+                break;
+            }
+            
+            case KeyEvent.VK_M: { // g - M
+                noteNumber = 67;
+                break;
+            }
+            
+            case KeyEvent.VK_K: { // gis - K
+                noteNumber = 68;
+                break;
+            }
+            
+            case KeyEvent.VK_COMMA: { // a - ,
+                noteNumber = 69;
+                break;
+            }
+            
+            case KeyEvent.VK_L: { // ais - L
+                noteNumber = 70;
+                break;
+            }
+            
+            case KeyEvent.VK_PERIOD: { // h - .
+                noteNumber = 71;
+                break;
+            }
+            
+            case KeyEvent.VK_SLASH: { // c1 - /
+                noteNumber = 72;
+                break;
+            }
+            
+            case KeyEvent.VK_Q: { // a - Q
+                noteNumber = 69;
+                break;
+            }
+            
+            case KeyEvent.VK_2: { // ais - 2
+                noteNumber = 70;
+                break;
+            }
+            
+            case KeyEvent.VK_W: { // h - W
+                noteNumber = 71;
+                break;
+            }
+            
+            case KeyEvent.VK_E: { // c1 - E
+                noteNumber = 72;
+                break;
+            }
+            
+            case KeyEvent.VK_4: { // cis1 - 4
+                noteNumber = 73;
+                break;
+            }
+            
+            case KeyEvent.VK_R: { // d1 - R
+                noteNumber = 74;
+                break;
+            }
+            
+            case KeyEvent.VK_5: { // dis1 - 5
+                noteNumber = 75;
+                break;
+            }
+            
+            case KeyEvent.VK_T: { // e1 - T
+                noteNumber = 76;
+                break;
+            }
+            
+            case KeyEvent.VK_Y: { // f1 - Y
+                noteNumber = 77;
+                break;
+            }
+            
+            case KeyEvent.VK_7: { // fis1 - 7
+                noteNumber = 78;
+                break;
+            }
+            
+            case KeyEvent.VK_U: { // g1 - U
+                noteNumber = 79;
+                break;
+            }
+            
+            case KeyEvent.VK_8: { // gis1 - 8
+                noteNumber = 80;
+                break;
+            }
+            
+            case KeyEvent.VK_I: { // a1 - I
+                noteNumber = 81;
+                break;
+            }
+            
+            case KeyEvent.VK_9: { // ais1 - 9
+                noteNumber = 82;
+                break;
+            }
+            
+            case KeyEvent.VK_O: { // h1 - O
+                noteNumber = 83;
+                break;
+            }
+            
+            case KeyEvent.VK_P: { // c2 - P
+                noteNumber = 84;
+                break;
+            }
+
+            case KeyEvent.VK_LEFT: {
+                if (instrumentIndex == 0) {
+                    instrumentIndex = instruments.length - 1;
+                } else {
+                    instrumentIndex--;
+                }
+
+                synthesizer.getChannels()[0].programChange(instrumentIndex);
+                System.out.println("Switched to " + instruments[instrumentIndex].getName());
+                break;
+            }
+
+            case KeyEvent.VK_RIGHT: {
+                if (instrumentIndex == instruments.length - 1) {
+                    instrumentIndex = 0;
+                } else {
+                    instrumentIndex++;
+                }
+
+                synthesizer.getChannels()[0].programChange(instrumentIndex);
+                System.out.println("Switched to " + instruments[instrumentIndex].getName());
+                break;
+                }
+            }
+
+            if (noteNumber != -1) {
+                midiChannels[0].noteOn(noteNumber, 600);
+            }
+        
+    }//GEN-LAST:event_jButtonKeyFocusKeyPressed
+
+    private void jButtonKeyFocusKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jButtonKeyFocusKeyReleased
+        // TODO add your handling code here:
+        
+        int keyCode = evt.getExtendedKeyCode();
+        int noteNumber = -1;
+
+        switch (keyCode) {
+            case KeyEvent.VK_Z: { // A - Z
+                noteNumber = 57;
+                break;
+            }
+            
+            case KeyEvent.VK_S: { // Ais - S
+                noteNumber = 58;
+                break;
+            }
+            
+            case KeyEvent.VK_X: { // H - X
+                noteNumber = 59;
+                break;
+            }
+            
+            case KeyEvent.VK_C: { // c - C
+                noteNumber = 60;
+                break;
+            }
+            
+            case KeyEvent.VK_F: { // cis - F
+                noteNumber = 61;
+                break;
+            }
+
+            case KeyEvent.VK_V: { // d - V
+                noteNumber = 62;
+                break;
+            }
+            
+            case KeyEvent.VK_G: { // dis - G
+                noteNumber = 63;
+                break;
+            }
+
+            case KeyEvent.VK_B: { // e - B
+                noteNumber = 64;
+                break;
+            }
+
+            case KeyEvent.VK_N: { // f - N
+                noteNumber = 65;
+                break;
+            }
+
+            case KeyEvent.VK_J: { // fis - J
+                noteNumber = 66;
+                break;
+            }
+            
+            case KeyEvent.VK_M: { // g - M
+                noteNumber = 67;
+                break;
+            }
+            
+            case KeyEvent.VK_K: { // gis - K
+                noteNumber = 68;
+                break;
+            }
+            
+            case KeyEvent.VK_COMMA: { // a - ,
+                noteNumber = 69;
+                break;
+            }
+            
+            case KeyEvent.VK_L: { // ais - L
+                noteNumber = 70;
+                break;
+            }
+            
+            case KeyEvent.VK_PERIOD: { // h - .
+                noteNumber = 71;
+                break;
+            }
+            
+            case KeyEvent.VK_SLASH: { // c1 - /
+                noteNumber = 72;
+                break;
+            }
+            
+            case KeyEvent.VK_Q: { // a - Q
+                noteNumber = 69;
+                break;
+            }
+            
+            case KeyEvent.VK_2: { // ais - 2
+                noteNumber = 70;
+                break;
+            }
+            
+            case KeyEvent.VK_W: { // h - W
+                noteNumber = 71;
+                break;
+            }
+            
+            case KeyEvent.VK_E: { // c1 - E
+                noteNumber = 72;
+                break;
+            }
+            
+            case KeyEvent.VK_4: { // cis1 - 4
+                noteNumber = 73;
+                break;
+            }
+            
+            case KeyEvent.VK_R: { // d1 - R
+                noteNumber = 74;
+                break;
+            }
+            
+            case KeyEvent.VK_5: { // dis1 - 5
+                noteNumber = 75;
+                break;
+            }
+            
+            case KeyEvent.VK_T: { // e1 - T
+                noteNumber = 76;
+                break;
+            }
+            
+            case KeyEvent.VK_Y: { // f1 - Y
+                noteNumber = 77;
+                break;
+            }
+            
+            case KeyEvent.VK_7: { // fis1 - 7
+                noteNumber = 78;
+                break;
+            }
+            
+            case KeyEvent.VK_U: { // g1 - U
+                noteNumber = 79;
+                break;
+            }
+            
+            case KeyEvent.VK_8: { // gis1 - 8
+                noteNumber = 80;
+                break;
+            }
+            
+            case KeyEvent.VK_I: { // a1 - I
+                noteNumber = 81;
+                break;
+            }
+            
+            case KeyEvent.VK_9: { // ais1 - 9
+                noteNumber = 82;
+                break;
+            }
+            
+            case KeyEvent.VK_O: { // h1 - O
+                noteNumber = 83;
+                break;
+            }
+            
+            case KeyEvent.VK_P: { // c2 - P
+                noteNumber = 84;
+                break;
+            }
         }
-        */
-        midiChannels[0].noteOn(60, 100);
-        
-    }//GEN-LAST:event_jbcActionPerformed
 
-    private void jbeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbeActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jbeActionPerformed
-
-    private void jbdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbdActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jbdActionPerformed
-
-    private void jbfActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbfActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jbfActionPerformed
-
-    private void jbgActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbgActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jbgActionPerformed
-
-    private void jbaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbaActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jbaActionPerformed
-
-    private void jbhActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbhActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jbhActionPerformed
-
-    private void jbAActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbAActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jbAActionPerformed
-
-    private void jbHActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbHActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jbHActionPerformed
-
-    private void jbc2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbc2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jbc2ActionPerformed
-
-    private void jbd1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbd1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jbd1ActionPerformed
-
-    private void jbe1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbe1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jbe1ActionPerformed
-
-    private void jbf1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbf1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jbf1ActionPerformed
-
-    private void jbg1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbg1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jbg1ActionPerformed
-
-    private void jba1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jba1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jba1ActionPerformed
-
-    private void jbh1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbh1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jbh1ActionPerformed
-
-    private void jbc1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbc1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jbc1ActionPerformed
-
-    private void jToggleButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jToggleButton2ActionPerformed
-
-    private void jbcKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jbcKeyPressed
-        /*InputStream iAudio;
-        
-        char c = evt.getKeyChar();
-        if(c == 'd') {
-            try {
-                iAudio = new FileInputStream(new File ("C:\\Javawork\\Music_Note\\C.wav"));
-                AudioStream iMusic = new AudioStream(iAudio);
-                AudioPlayer.player.start(iMusic );
-            } catch (IOException e){
-                JOptionPane.showMessageDialog(null, e);
-            }
+        if (noteNumber != -1) {
+            midiChannels[0].noteOff(noteNumber, 600);
         }
-        */
         
-        int keyCode = evt.getExtendedKeyCode();
-            int noteNumber = -1;
-
-            switch (keyCode) {
-                case KeyEvent.VK_1: {
-                    noteNumber = 60;
-                    break;
-                }
-
-                case KeyEvent.VK_2: {
-                    noteNumber = 62;
-                    break;
-                }
-
-                case KeyEvent.VK_3: {
-                    noteNumber = 64;
-                    break;
-                }
-
-                case KeyEvent.VK_4: {
-                    noteNumber = 65;
-                    break;
-                }
-
-                case KeyEvent.VK_5: {
-                    noteNumber = 67;
-                    break;
-                }
-
-                case KeyEvent.VK_6: {
-                    noteNumber = 69;
-                    break;
-                }
-
-                case KeyEvent.VK_7: {
-                    noteNumber = 71;
-                    break;
-                }
-
-                case KeyEvent.VK_8: {
-                    noteNumber = 72;
-                    break;
-                }
-
-                case KeyEvent.VK_LEFT: {
-                    if (instrumentIndex == 0) {
-                        instrumentIndex = instruments.length - 1;
-                    } else {
-                        instrumentIndex--;
-                    }
-
-                    synthesizer.getChannels()[0].programChange(instrumentIndex);
-                    System.out.println("Switched to " + 
-                                       instruments[instrumentIndex].getName());
-                    break;
-                }
-
-                case KeyEvent.VK_RIGHT: {
-                    if (instrumentIndex == instruments.length - 1) {
-                        instrumentIndex = 0;
-                    } else {
-                        instrumentIndex++;
-                    }
-
-                    synthesizer.getChannels()[0].programChange(instrumentIndex);
-                    System.out.println("Switched to " + 
-                                       instruments[instrumentIndex].getName());
-                    break;
-                }
-            }
-
-            if (noteNumber != -1) {
-                midiChannels[0].noteOn(noteNumber, 600);
-            }
-        
-    }//GEN-LAST:event_jbcKeyPressed
-
-    private void jPanel1KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jPanel1KeyPressed
-        // TODO add your handling code here
-        int keyCode = evt.getExtendedKeyCode();
-            int noteNumber = -1;
-
-            switch (keyCode) {
-                case KeyEvent.VK_1: {
-                    noteNumber = 60;
-                    break;
-                }
-
-                case KeyEvent.VK_2: {
-                    noteNumber = 62;
-                    break;
-                }
-
-                case KeyEvent.VK_3: {
-                    noteNumber = 64;
-                    break;
-                }
-
-                case KeyEvent.VK_4: {
-                    noteNumber = 65;
-                    break;
-                }
-
-                case KeyEvent.VK_5: {
-                    noteNumber = 67;
-                    break;
-                }
-
-                case KeyEvent.VK_6: {
-                    noteNumber = 69;
-                    break;
-                }
-
-                case KeyEvent.VK_7: {
-                    noteNumber = 71;
-                    break;
-                }
-
-                case KeyEvent.VK_8: {
-                    noteNumber = 72;
-                    break;
-                }
-
-                case KeyEvent.VK_LEFT: {
-                    if (instrumentIndex == 0) {
-                        instrumentIndex = instruments.length - 1;
-                    } else {
-                        instrumentIndex--;
-                    }
-
-                    synthesizer.getChannels()[0].programChange(instrumentIndex);
-                    System.out.println("Switched to " + 
-                                       instruments[instrumentIndex].getName());
-                    break;
-                }
-
-                case KeyEvent.VK_RIGHT: {
-                    if (instrumentIndex == instruments.length - 1) {
-                        instrumentIndex = 0;
-                    } else {
-                        instrumentIndex++;
-                    }
-
-                    synthesizer.getChannels()[0].programChange(instrumentIndex);
-                    System.out.println("Switched to " + 
-                                       instruments[instrumentIndex].getName());
-                    break;
-                }
-            }
-
-            if (noteNumber != -1) {
-                midiChannels[0].noteOn(noteNumber, 600);
-            }
-    }//GEN-LAST:event_jPanel1KeyPressed
-
-    private void jToggleButton1KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jToggleButton1KeyPressed
+    }//GEN-LAST:event_jButtonKeyFocusKeyReleased
+    
+    /*
+        MOUSE PLAYING SECTION
+    */
+    
+    // note: d; key: v; pitch: 62;
+    private void jbdMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jbdMousePressed
         // TODO add your handling code here:
+        midiChannels[0].noteOn(62, 600); 
         
-        int keyCode = evt.getExtendedKeyCode();
-            int noteNumber = -1;
+    }//GEN-LAST:event_jbdMousePressed
 
-            switch (keyCode) {
-                case KeyEvent.VK_1: {
-                    noteNumber = 60;
-                    break;
-                }
-
-                case KeyEvent.VK_2: {
-                    noteNumber = 62;
-                    break;
-                }
-
-                case KeyEvent.VK_3: {
-                    noteNumber = 64;
-                    break;
-                }
-
-                case KeyEvent.VK_4: {
-                    noteNumber = 65;
-                    break;
-                }
-
-                case KeyEvent.VK_5: {
-                    noteNumber = 67;
-                    break;
-                }
-
-                case KeyEvent.VK_6: {
-                    noteNumber = 69;
-                    break;
-                }
-
-                case KeyEvent.VK_7: {
-                    noteNumber = 71;
-                    break;
-                }
-
-                case KeyEvent.VK_8: {
-                    noteNumber = 72;
-                    break;
-                }
-
-                case KeyEvent.VK_LEFT: {
-                    if (instrumentIndex == 0) {
-                        instrumentIndex = instruments.length - 1;
-                    } else {
-                        instrumentIndex--;
-                    }
-
-                    synthesizer.getChannels()[0].programChange(instrumentIndex);
-                    System.out.println("Switched to " + 
-                                       instruments[instrumentIndex].getName());
-                    break;
-                }
-
-                case KeyEvent.VK_RIGHT: {
-                    if (instrumentIndex == instruments.length - 1) {
-                        instrumentIndex = 0;
-                    } else {
-                        instrumentIndex++;
-                    }
-
-                    synthesizer.getChannels()[0].programChange(instrumentIndex);
-                    System.out.println("Switched to " + 
-                                       instruments[instrumentIndex].getName());
-                    break;
-                }
-            }
-
-            if (noteNumber != -1) {
-                midiChannels[0].noteOn(noteNumber, 600);
-            }
-        
-    }//GEN-LAST:event_jToggleButton1KeyPressed
-
-    private void jToggleButton1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jToggleButton1KeyReleased
+    private void jbdMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jbdMouseReleased
         // TODO add your handling code here:
+        midiChannels[0].noteOff(62, 600);
         
-        int keyCode = evt.getExtendedKeyCode();
-            int noteNumber = -1;
+    }//GEN-LAST:event_jbdMouseReleased
 
-            switch (keyCode) {
-                case KeyEvent.VK_1: {
-                    noteNumber = 60;
-                    break;
-                }
+    // note: A; key: z; pitch: 57;
+    private void jbAMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jbAMousePressed
+        // TODO add your handling code here:
+        midiChannels[0].noteOn(57, 600);
+    }//GEN-LAST:event_jbAMousePressed
 
-                case KeyEvent.VK_2: {
-                    noteNumber = 62;
-                    break;
-                }
+    private void jbAMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jbAMouseReleased
+        // TODO add your handling code here:
+        midiChannels[0].noteOff(57, 600);
+    }//GEN-LAST:event_jbAMouseReleased
 
-                case KeyEvent.VK_3: {
-                    noteNumber = 64;
-                    break;
-                }
+    // note: H; key: x; pitch: 59;
+    private void jbHMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jbHMousePressed
+        // TODO add your handling code here:
+        midiChannels[0].noteOn(59, 600);
+    }//GEN-LAST:event_jbHMousePressed
 
-                case KeyEvent.VK_4: {
-                    noteNumber = 65;
-                    break;
-                }
+    private void jbHMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jbHMouseReleased
+        // TODO add your handling code here:
+        midiChannels[0].noteOff(59, 600);    
+    }//GEN-LAST:event_jbHMouseReleased
 
-                case KeyEvent.VK_5: {
-                    noteNumber = 67;
-                    break;
-                }
+    // note: c; key: c; pitch: 60;
+    private void jbcMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jbcMousePressed
+        // TODO add your handling code here:
+        midiChannels[0].noteOn(60, 600);
+    }//GEN-LAST:event_jbcMousePressed
 
-                case KeyEvent.VK_6: {
-                    noteNumber = 69;
-                    break;
-                }
+    private void jbcMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jbcMouseReleased
+        // TODO add your handling code here:
+        midiChannels[0].noteOff(60, 600);
+    }//GEN-LAST:event_jbcMouseReleased
 
-                case KeyEvent.VK_7: {
-                    noteNumber = 71;
-                    break;
-                }
+    // note: e; key: b; pitch: 64; pitch: 64;
+    private void jbeMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jbeMousePressed
+        // TODO add your handling code here:
+        midiChannels[0].noteOn(64, 600);
+    }//GEN-LAST:event_jbeMousePressed
 
-                case KeyEvent.VK_8: {
-                    noteNumber = 72;
-                    break;
-                }
-            }
+    private void jbeMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jbeMouseReleased
+        // TODO add your handling code here:
+        midiChannels[0].noteOff(64, 600);
+    }//GEN-LAST:event_jbeMouseReleased
 
-            if (noteNumber != -1) {
-                midiChannels[0].noteOff(noteNumber, 600);
-            }
-        
-    }//GEN-LAST:event_jToggleButton1KeyReleased
+    // note: f; key: n; pitch: 65;
+    private void jbfMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jbfMousePressed
+        // TODO add your handling code here:
+        midiChannels[0].noteOn(65, 600);
+    }//GEN-LAST:event_jbfMousePressed
+
+    private void jbfMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jbfMouseReleased
+        // TODO add your handling code here:
+        midiChannels[0].noteOff(65, 600);
+    }//GEN-LAST:event_jbfMouseReleased
+
+    // note: g; key: m; pitch: 67;
+    private void jbgMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jbgMousePressed
+        // TODO add your handling code here:
+        midiChannels[0].noteOn(67, 600);
+    }//GEN-LAST:event_jbgMousePressed
+
+    private void jbgMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jbgMouseReleased
+        // TODO add your handling code here:
+        midiChannels[0].noteOff(67, 600);
+    }//GEN-LAST:event_jbgMouseReleased
+
+    // note: a; key: ,q; pitch: 69;
+    private void jbaMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jbaMousePressed
+        // TODO add your handling code here:
+        midiChannels[0].noteOn(69, 600);
+    }//GEN-LAST:event_jbaMousePressed
+
+    private void jbaMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jbaMouseReleased
+        // TODO add your handling code here:
+        midiChannels[0].noteOff(69, 600);
+    }//GEN-LAST:event_jbaMouseReleased
+
+    // note: h; key: .w; pitch: 71;
+    private void jbhMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jbhMousePressed
+        // TODO add your handling code here:
+        midiChannels[0].noteOn(71, 600);
+    }//GEN-LAST:event_jbhMousePressed
+
+    private void jbhMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jbhMouseReleased
+        // TODO add your handling code here:
+        midiChannels[0].noteOff(71, 600);
+    }//GEN-LAST:event_jbhMouseReleased
+
+    // note: c1; key: /e; pitch: 72;
+    private void jbc1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jbc1MousePressed
+        // TODO add your handling code here:
+        midiChannels[0].noteOn(72, 600);
+    }//GEN-LAST:event_jbc1MousePressed
+
+    private void jbc1MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jbc1MouseReleased
+        // TODO add your handling code here:
+        midiChannels[0].noteOff(72, 600);
+    }//GEN-LAST:event_jbc1MouseReleased
+
+    // note: d1; key: r; pitch: 74;
+    private void jbd1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jbd1MousePressed
+        // TODO add your handling code here:
+        midiChannels[0].noteOn(74, 600);
+    }//GEN-LAST:event_jbd1MousePressed
+
+    private void jbd1MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jbd1MouseReleased
+        // TODO add your handling code here:
+        midiChannels[0].noteOff(74, 600);
+    }//GEN-LAST:event_jbd1MouseReleased
+
+    // note: e1; key: t; pitch: 76;
+    private void jbe1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jbe1MousePressed
+        // TODO add your handling code here:
+        midiChannels[0].noteOn(76, 600);
+    }//GEN-LAST:event_jbe1MousePressed
+
+    private void jbe1MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jbe1MouseReleased
+        // TODO add your handling code here:
+        midiChannels[0].noteOff(76, 600);
+    }//GEN-LAST:event_jbe1MouseReleased
+
+    // note: f1; key: y; pitch: 77;
+    private void jbf1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jbf1MousePressed
+        // TODO add your handling code here:
+        midiChannels[0].noteOn(77, 600);
+    }//GEN-LAST:event_jbf1MousePressed
+
+    private void jbf1MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jbf1MouseReleased
+        // TODO add your handling code here:
+        midiChannels[0].noteOff(77, 600);
+    }//GEN-LAST:event_jbf1MouseReleased
+
+    // note: g1; key: u; pitch: 79;
+    private void jbg1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jbg1MousePressed
+        // TODO add your handling code here:
+        midiChannels[0].noteOn(79, 600);
+    }//GEN-LAST:event_jbg1MousePressed
+
+    private void jbg1MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jbg1MouseReleased
+        // TODO add your handling code here:
+        midiChannels[0].noteOff(79, 600);
+    }//GEN-LAST:event_jbg1MouseReleased
+
+    // note: a1; key: i; pitch: 81;
+    private void jba1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jba1MousePressed
+        // TODO add your handling code here:
+        midiChannels[0].noteOn(81, 600);
+    }//GEN-LAST:event_jba1MousePressed
+
+    private void jba1MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jba1MouseReleased
+        // TODO add your handling code here:
+        midiChannels[0].noteOff(81, 600);
+    }//GEN-LAST:event_jba1MouseReleased
+
+    // note: h1; key: o; pitch: 83;
+    private void jbh1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jbh1MousePressed
+        // TODO add your handling code here:
+        midiChannels[0].noteOn(83, 600);
+    }//GEN-LAST:event_jbh1MousePressed
+
+    private void jbh1MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jbh1MouseReleased
+        // TODO add your handling code here:
+        midiChannels[0].noteOff(83, 600);
+    }//GEN-LAST:event_jbh1MouseReleased
+
+    // note: c2; key: p; pitch: 84;
+    private void jbc2MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jbc2MousePressed
+        // TODO add your handling code here:
+        midiChannels[0].noteOn(84, 600);
+    }//GEN-LAST:event_jbc2MousePressed
+
+    private void jbc2MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jbc2MouseReleased
+        // TODO add your handling code here:
+        midiChannels[0].noteOff(84, 600);
+    }//GEN-LAST:event_jbc2MouseReleased
+
+    // note: Ais; key: s; pitch: 58;
+    private void jbAisMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jbAisMousePressed
+        // TODO add your handling code here:
+        midiChannels[0].noteOn(58, 600);
+    }//GEN-LAST:event_jbAisMousePressed
+
+    private void jbAisMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jbAisMouseReleased
+        // TODO add your handling code here:
+        midiChannels[0].noteOff(58, 600);
+    }//GEN-LAST:event_jbAisMouseReleased
+
+    // note: cis; key: f; pitch: 61;
+    private void jbcisMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jbcisMousePressed
+        // TODO add your handling code here:
+        midiChannels[0].noteOn(61, 600);
+    }//GEN-LAST:event_jbcisMousePressed
+
+    private void jbcisMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jbcisMouseReleased
+        // TODO add your handling code here:
+        midiChannels[0].noteOff(61, 600);
+    }//GEN-LAST:event_jbcisMouseReleased
+
+    // note: dis; key: g; pitch: 63;
+    private void jbdisMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jbdisMousePressed
+        // TODO add your handling code here:
+        midiChannels[0].noteOn(63, 600);
+    }//GEN-LAST:event_jbdisMousePressed
+
+    private void jbdisMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jbdisMouseReleased
+        // TODO add your handling code here:
+        midiChannels[0].noteOff(63, 600);
+    }//GEN-LAST:event_jbdisMouseReleased
+
+    // note: fis; key: j; pitch: 66;
+    private void jbfisMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jbfisMousePressed
+        // TODO add your handling code here:
+        midiChannels[0].noteOn(66, 600);
+    }//GEN-LAST:event_jbfisMousePressed
+
+    private void jbfisMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jbfisMouseReleased
+        // TODO add your handling code here:
+        midiChannels[0].noteOff(66, 600);
+    }//GEN-LAST:event_jbfisMouseReleased
+
+    // note: gis; key: k; pitch: 68;
+    private void jbgisMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jbgisMousePressed
+        // TODO add your handling code here:
+        midiChannels[0].noteOn(68, 600);
+    }//GEN-LAST:event_jbgisMousePressed
+
+    private void jbgisMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jbgisMouseReleased
+        // TODO add your handling code here:
+        midiChannels[0].noteOff(68, 600);
+    }//GEN-LAST:event_jbgisMouseReleased
+
+    // note: ais; key: l; pitch: 70;
+    private void jbaisMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jbaisMousePressed
+        // TODO add your handling code here:
+        midiChannels[0].noteOn(70, 600);
+    }//GEN-LAST:event_jbaisMousePressed
+
+    private void jbaisMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jbaisMouseReleased
+        // TODO add your handling code here:
+        midiChannels[0].noteOff(70, 600);
+    }//GEN-LAST:event_jbaisMouseReleased
+
+    // note: cis1; key: 4; pitch: 73;
+    private void jbcis1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jbcis1MousePressed
+        // TODO add your handling code here:
+        midiChannels[0].noteOn(73, 600);
+    }//GEN-LAST:event_jbcis1MousePressed
+
+    private void jbcis1MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jbcis1MouseReleased
+        // TODO add your handling code here:
+        midiChannels[0].noteOff(73, 600);
+    }//GEN-LAST:event_jbcis1MouseReleased
+
+    // note: dis1; key: 5; pitch: 75;
+    private void jbdis1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jbdis1MousePressed
+        // TODO add your handling code here:
+        midiChannels[0].noteOn(75, 600);
+    }//GEN-LAST:event_jbdis1MousePressed
+
+    private void jbdis1MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jbdis1MouseReleased
+        // TODO add your handling code here:
+        midiChannels[0].noteOff(75, 600);
+    }//GEN-LAST:event_jbdis1MouseReleased
+
+    // note: fis1; key: 7; pitch: 78;
+    private void jbfis1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jbfis1MousePressed
+        // TODO add your handling code here:
+        midiChannels[0].noteOn(78, 600);
+    }//GEN-LAST:event_jbfis1MousePressed
+
+    private void jbfis1MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jbfis1MouseReleased
+        // TODO add your handling code here:
+        midiChannels[0].noteOff(78, 600);
+    }//GEN-LAST:event_jbfis1MouseReleased
+
+    // note: gis1; key: 8; pitch: 80;
+    private void jbgis1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jbgis1MousePressed
+        // TODO add your handling code here:
+        midiChannels[0].noteOn(80, 600);
+    }//GEN-LAST:event_jbgis1MousePressed
+
+    private void jbgis1MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jbgis1MouseReleased
+        // TODO add your handling code here:
+        midiChannels[0].noteOff(80, 600);
+    }//GEN-LAST:event_jbgis1MouseReleased
+
+    // note: ais1; key: 9; pitch: 82;
+    private void jbais1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jbais1MousePressed
+        // TODO add your handling code here:
+        midiChannels[0].noteOn(82, 600);
+    }//GEN-LAST:event_jbais1MousePressed
+
+    private void jbais1MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jbais1MouseReleased
+        // TODO add your handling code here:
+        midiChannels[0].noteOff(82, 600);
+    }//GEN-LAST:event_jbais1MouseReleased
+
+    private void jButtonSoundBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSoundBackActionPerformed
+        // TODO add your handling code here:
+        if (instrumentIndex == 0) {
+            instrumentIndex = instruments.length - 1;
+        } else {
+            instrumentIndex--;
+        }
+        synthesizer.getChannels()[0].programChange(instrumentIndex);
+        System.out.println("Switched to " + instruments[instrumentIndex].getName());
+    }//GEN-LAST:event_jButtonSoundBackActionPerformed
+
+    private void jButtonSoundNextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSoundNextActionPerformed
+        // TODO add your handling code here:
+        if (instrumentIndex == instruments.length - 1) {
+            instrumentIndex = 0;
+        } else {
+            instrumentIndex++;
+        }
+        synthesizer.getChannels()[0].programChange(instrumentIndex);
+        System.out.println("Switched to " + instruments[instrumentIndex].getName());
+    }//GEN-LAST:event_jButtonSoundNextActionPerformed
 
     /**
      * @param args the command line arguments
@@ -957,24 +1426,22 @@ public class javaMidiPiano extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup buttonGroup1;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JCheckBox jCheckBox1;
-    private javax.swing.JCheckBox jCheckBox2;
+    private javax.swing.JButton jButtonKeyFocus;
+    private javax.swing.JButton jButtonSoundBack;
+    private javax.swing.JButton jButtonSoundNext;
+    private javax.swing.JCheckBox jCheckIbratoEff;
+    private javax.swing.JCheckBox jCheckSustainEff;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JSlider jSlider1;
-    private javax.swing.JSlider jSlider2;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
-    private javax.swing.JToggleButton jToggleButton1;
-    private javax.swing.JToggleButton jToggleButton2;
-    private javax.swing.JToggleButton jToggleButton3;
+    private javax.swing.JLabel jLabelEffects;
+    private javax.swing.JLabel jLabelKeypressPlay;
+    private javax.swing.JLabel jLabelSounds;
+    private javax.swing.JLabel jLabelTitle;
+    private javax.swing.JPanel jPanelMain;
+    private javax.swing.JSlider jSliderBpmValue;
+    private javax.swing.JTextField jTextFieldBpmDisplay;
+    private javax.swing.JTextField jTextSoundDisplay;
+    private javax.swing.JToggleButton jToggleButtonMetronome;
+    private javax.swing.JToggleButton jToggleButtonRecorder;
     private javax.swing.JButton jbA;
     private javax.swing.JButton jbAis;
     private javax.swing.JButton jbH;

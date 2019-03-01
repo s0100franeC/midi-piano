@@ -23,14 +23,6 @@ public class Metronome implements MetaEventListener {
             Logger.getLogger(Metronome.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
-    public void stop(Sequence seq) {
-        try {
-            stopSequence(seq);
-        } catch (InvalidMidiDataException ex) {
-            Logger.getLogger(Metronome.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
 
     private void openSequencer() throws MidiUnavailableException {
         sequencer = MidiSystem.getSequencer();
@@ -73,22 +65,9 @@ public class Metronome implements MetaEventListener {
         sequencer.setTempoInBPM(bpm);
         sequencer.start();
     }
-    
-    private void stopSequence(Sequence seq) throws InvalidMidiDataException {
-        sequencer.stop();
-    }
 
     public static void main(String[] args) throws Exception {
         int bpm = 120;
-        if (args.length > 0) {
-            try {
-                bpm = Integer.parseInt(args[0]);
-            } catch (NumberFormatException e) {
-                bpm = 0;
-            }
-            if (bpm == 0)
-                bpm = 60;
-        }
         new Metronome().start(bpm);
     }
 

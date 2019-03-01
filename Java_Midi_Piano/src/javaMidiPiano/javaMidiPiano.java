@@ -25,6 +25,7 @@ public class javaMidiPiano extends javax.swing.JFrame {
     private final Instrument[] instruments;
     private int instrumentIndex = 0;
     private boolean sustainSwitch;
+    private boolean octaverSwitch;
     
     public javaMidiPiano() {
         initComponents();
@@ -592,7 +593,17 @@ public class javaMidiPiano extends javax.swing.JFrame {
 
         jCheckIbratoEff.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         jCheckIbratoEff.setForeground(java.awt.Color.white);
-        jCheckIbratoEff.setText(" Vibrato");
+        jCheckIbratoEff.setText("Octaver");
+        jCheckIbratoEff.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                jCheckIbratoEffItemStateChanged(evt);
+            }
+        });
+        jCheckIbratoEff.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCheckIbratoEffActionPerformed(evt);
+            }
+        });
         jPanelMain.add(jCheckIbratoEff);
         jCheckIbratoEff.setBounds(260, 110, 140, 40);
 
@@ -1092,8 +1103,10 @@ public class javaMidiPiano extends javax.swing.JFrame {
             
             case KeyEvent.VK_SPACE: { // sustain
                 sustainSwitch = false;
+                midiChannels[0].allNotesOff();
                 break;
             }
+            
         }
         
         if (noteNumber != -1 && sustainSwitch == false) {
@@ -1109,7 +1122,11 @@ public class javaMidiPiano extends javax.swing.JFrame {
     // note: d; key: v; pitch: 62;
     private void jbdMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jbdMousePressed
         // TODO add your handling code here:
-        midiChannels[0].noteOn(62, 600); 
+        midiChannels[0].noteOn(62, 600);
+        
+        if(octaverSwitch == true) {
+            midiChannels[1].noteOn(74, 600);
+        }
         
     }//GEN-LAST:event_jbdMousePressed
 
@@ -1117,6 +1134,10 @@ public class javaMidiPiano extends javax.swing.JFrame {
         // TODO add your handling code here:
         if(sustainSwitch == false) {
             midiChannels[0].noteOff(62, 600);
+            
+            if(octaverSwitch == true) {
+                midiChannels[1].noteOff(74, 600);
+            }
         }
         
     }//GEN-LAST:event_jbdMouseReleased
@@ -1479,6 +1500,23 @@ public class javaMidiPiano extends javax.swing.JFrame {
           sustainSwitch = false;
         }
     }//GEN-LAST:event_jCheckSustainEffItemStateChanged
+
+    private void jCheckIbratoEffItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jCheckIbratoEffItemStateChanged
+        // TODO add your handling code here:
+        int octaverState = evt.getStateChange();
+        
+        if (octaverState == evt.SELECTED) {
+          System.out.println("Octaver ON");
+          octaverSwitch = true;
+        } else {
+          System.out.println("Octaver OFF");
+          octaverSwitch = false;
+        }
+    }//GEN-LAST:event_jCheckIbratoEffItemStateChanged
+
+    private void jCheckIbratoEffActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckIbratoEffActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jCheckIbratoEffActionPerformed
 
     /**
      * @param args the command line arguments

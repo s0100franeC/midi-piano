@@ -7,10 +7,8 @@ package javaMidiPiano;
 
 import javax.sound.midi.*;
 import java.awt.event.KeyEvent;
-import sun.audio.*;
-import java.io.*;
-import javax.swing.JOptionPane;
-import java.lang.*;
+import javax.swing.*;
+
 
 /**
  *
@@ -674,9 +672,9 @@ public class javaMidiPiano extends javax.swing.JFrame {
         jToggleButtonMetronome.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jToggleButtonMetronome.setForeground(java.awt.Color.darkGray);
         jToggleButtonMetronome.setText("Metronome");
-        jToggleButtonMetronome.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jToggleButtonMetronomeActionPerformed(evt);
+        jToggleButtonMetronome.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                jToggleButtonMetronomeItemStateChanged(evt);
             }
         });
         jPanelMain.add(jToggleButtonMetronome);
@@ -1434,36 +1432,21 @@ public class javaMidiPiano extends javax.swing.JFrame {
         jTextFieldBpmDisplay.setText("" + jSliderBpmValue.getValue() + " bpm");
     }//GEN-LAST:event_jSliderBpmValueStateChanged
 
-    /*
-        METRONOME SECTION
-    */
-    
-    private void jToggleButtonMetronomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButtonMetronomeActionPerformed
+    private void jToggleButtonMetronomeItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jToggleButtonMetronomeItemStateChanged
         // TODO add your handling code here:
-        InputStream iAudio;
         
-        if(jToggleButtonMetronome.isSelected()){           
-            try {
-                
-                int x = 0;
-                    
-                while(jToggleButtonMetronome.isSelected() && x<10) {
-                    
-                    iAudio = new FileInputStream(new File ("C:\\Javawork\\Music_Note\\tik.wav"));
-                    AudioStream iMusic = new AudioStream(iAudio);
-                    AudioPlayer.player.start(iMusic);
-                    try {
-                        Thread.sleep(60000/jSliderBpmValue.getValue());
-                    } catch(Exception e) {
-                        System.out.println(e);
-                    }
-                    x++;
-                }
-            } catch (IOException e) {
-                JOptionPane.showMessageDialog(null, e);
-            }
+        int state = evt.getStateChange();
+        int bpm = jSliderBpmValue.getValue();
+        Metronome metronome = new Metronome();
+        
+        if (state == evt.SELECTED) {
+          System.out.println("Metronome ON");
+          metronome.start(bpm);
+        } else {
+          System.out.println("Metronome OFF");
         }
-    }//GEN-LAST:event_jToggleButtonMetronomeActionPerformed
+        
+    }//GEN-LAST:event_jToggleButtonMetronomeItemStateChanged
 
     /**
      * @param args the command line arguments

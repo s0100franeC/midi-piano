@@ -24,6 +24,7 @@ public class javaMidiPiano extends javax.swing.JFrame {
     private final MidiChannel[] midiChannels;
     private final Instrument[] instruments;
     private int instrumentIndex = 0;
+    private boolean sustainSwitch;
     
     public javaMidiPiano() {
         initComponents();
@@ -598,6 +599,11 @@ public class javaMidiPiano extends javax.swing.JFrame {
         jCheckSustainEff.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         jCheckSustainEff.setForeground(java.awt.Color.white);
         jCheckSustainEff.setText(" Sustain");
+        jCheckSustainEff.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                jCheckSustainEffItemStateChanged(evt);
+            }
+        });
         jPanelMain.add(jCheckSustainEff);
         jCheckSustainEff.setBounds(260, 60, 140, 40);
 
@@ -902,12 +908,17 @@ public class javaMidiPiano extends javax.swing.JFrame {
                 System.out.println("Switched to " + instruments[instrumentIndex].getName());
                 jTextSoundDisplay.setText(instruments[instrumentIndex].getName());
                 break;
-                }
             }
+            
+            case KeyEvent.VK_SPACE: { // sustain
+                sustainSwitch = true;
+                break;
+            }
+        }
 
-            if (noteNumber != -1) {
-                midiChannels[0].noteOn(noteNumber, 600);
-            }
+        if (noteNumber != -1) {
+            midiChannels[0].noteOn(noteNumber, 600);
+        }
         
     }//GEN-LAST:event_jButtonKeyFocusKeyPressed
 
@@ -916,7 +927,8 @@ public class javaMidiPiano extends javax.swing.JFrame {
         
         int keyCode = evt.getExtendedKeyCode();
         int noteNumber = -1;
-
+        
+       
         switch (keyCode) {
             case KeyEvent.VK_Z: { // A - Z
                 noteNumber = 57;
@@ -1077,9 +1089,14 @@ public class javaMidiPiano extends javax.swing.JFrame {
                 noteNumber = 84;
                 break;
             }
+            
+            case KeyEvent.VK_SPACE: { // sustain
+                sustainSwitch = false;
+                break;
+            }
         }
-
-        if (noteNumber != -1) {
+        
+        if (noteNumber != -1 && sustainSwitch == false) {
             midiChannels[0].noteOff(noteNumber, 600);
         }
         
@@ -1098,7 +1115,9 @@ public class javaMidiPiano extends javax.swing.JFrame {
 
     private void jbdMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jbdMouseReleased
         // TODO add your handling code here:
-        midiChannels[0].noteOff(62, 600);
+        if(sustainSwitch == false) {
+            midiChannels[0].noteOff(62, 600);
+        }
         
     }//GEN-LAST:event_jbdMouseReleased
 
@@ -1447,6 +1466,19 @@ public class javaMidiPiano extends javax.swing.JFrame {
         }
         
     }//GEN-LAST:event_jToggleButtonMetronomeItemStateChanged
+
+    private void jCheckSustainEffItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jCheckSustainEffItemStateChanged
+        // TODO add your handling code here:
+        int sustainState = evt.getStateChange();
+        
+        if (sustainState == evt.SELECTED) {
+          System.out.println("Sustain ON");
+          sustainSwitch = true;
+        } else {
+          System.out.println("Sustain OFF");
+          sustainSwitch = false;
+        }
+    }//GEN-LAST:event_jCheckSustainEffItemStateChanged
 
     /**
      * @param args the command line arguments

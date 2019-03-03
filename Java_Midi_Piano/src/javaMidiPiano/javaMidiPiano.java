@@ -1882,6 +1882,7 @@ public class javaMidiPiano extends javax.swing.JFrame {
           metronome.start(bpm);
         } else {
           System.out.println("Metronome OFF");
+          //metronome.stop();
         }
         
     }//GEN-LAST:event_jToggleButtonMetronomeItemStateChanged

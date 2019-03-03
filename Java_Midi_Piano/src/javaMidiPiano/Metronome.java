@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package javaMidiPiano;
 
 import java.util.logging.Level;
@@ -29,6 +24,11 @@ public class Metronome implements MetaEventListener {
         sequencer.open();
         sequencer.addMetaEventListener(this);
     }
+    /*
+    public void stop() {
+        sequencer.stop();
+    }
+    */
 
     private Sequence createSequence() {
         try {
@@ -64,11 +64,6 @@ public class Metronome implements MetaEventListener {
         sequencer.setSequence(seq);
         sequencer.setTempoInBPM(bpm);
         sequencer.start();
-    }
-
-    public static void main(String[] args) throws Exception {
-        int bpm = 120;
-        new Metronome().start(bpm);
     }
 
     @Override

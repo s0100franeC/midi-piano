@@ -7,6 +7,8 @@ package javaMidiPiano;
 
 import javax.sound.midi.*;
 import java.awt.event.KeyEvent;
+import javax.swing.*;
+
 
 /**
  *
@@ -22,6 +24,8 @@ public class javaMidiPiano extends javax.swing.JFrame {
     private final MidiChannel[] midiChannels;
     private final Instrument[] instruments;
     private int instrumentIndex = 0;
+    private boolean sustainSwitch;
+    private boolean octaverSwitch;
     
     public javaMidiPiano() {
         initComponents();
@@ -571,9 +575,13 @@ public class javaMidiPiano extends javax.swing.JFrame {
             }
         });
         jPanelMain.add(jToggleButtonRecorder);
-        jToggleButtonRecorder.setBounds(1100, 120, 140, 40);
+        jToggleButtonRecorder.setBounds(1100, 120, 140, 50);
 
-        jTextSoundDisplay.setText("jTextField1");
+        jTextSoundDisplay.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jTextSoundDisplay.setForeground(java.awt.Color.red);
+        jTextSoundDisplay.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        jTextSoundDisplay.setText("Piano");
+        jTextSoundDisplay.setEnabled(false);
         jPanelMain.add(jTextSoundDisplay);
         jTextSoundDisplay.setBounds(450, 110, 260, 40);
 
@@ -585,13 +593,28 @@ public class javaMidiPiano extends javax.swing.JFrame {
 
         jCheckIbratoEff.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         jCheckIbratoEff.setForeground(java.awt.Color.white);
-        jCheckIbratoEff.setText(" Vibrato");
+        jCheckIbratoEff.setText("Octaver");
+        jCheckIbratoEff.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                jCheckIbratoEffItemStateChanged(evt);
+            }
+        });
+        jCheckIbratoEff.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCheckIbratoEffActionPerformed(evt);
+            }
+        });
         jPanelMain.add(jCheckIbratoEff);
         jCheckIbratoEff.setBounds(260, 110, 140, 40);
 
         jCheckSustainEff.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         jCheckSustainEff.setForeground(java.awt.Color.white);
         jCheckSustainEff.setText(" Sustain");
+        jCheckSustainEff.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                jCheckSustainEffItemStateChanged(evt);
+            }
+        });
         jPanelMain.add(jCheckSustainEff);
         jCheckSustainEff.setBounds(260, 60, 140, 40);
 
@@ -607,19 +630,38 @@ public class javaMidiPiano extends javax.swing.JFrame {
         jLabel1.setText("00:00");
         jLabel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "time", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 11), new java.awt.Color(204, 204, 204))); // NOI18N
         jPanelMain.add(jLabel1);
-        jLabel1.setBounds(970, 100, 110, 70);
+        jLabel1.setBounds(970, 110, 110, 60);
 
         jLabelKeypressPlay.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         jLabelKeypressPlay.setForeground(java.awt.Color.white);
         jLabelKeypressPlay.setText("Keypress Play");
         jPanelMain.add(jLabelKeypressPlay);
         jLabelKeypressPlay.setBounds(50, 20, 180, 40);
-        jPanelMain.add(jSliderBpmValue);
-        jSliderBpmValue.setBounds(970, 20, 270, 20);
 
-        jTextFieldBpmDisplay.setText("jTextField1");
+        jSliderBpmValue.setBackground(java.awt.Color.white);
+        jSliderBpmValue.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jSliderBpmValue.setForeground(java.awt.Color.white);
+        jSliderBpmValue.setMajorTickSpacing(20);
+        jSliderBpmValue.setMaximum(160);
+        jSliderBpmValue.setMinorTickSpacing(10);
+        jSliderBpmValue.setPaintLabels(true);
+        jSliderBpmValue.setPaintTicks(true);
+        jSliderBpmValue.setToolTipText("");
+        jSliderBpmValue.setValue(100);
+        jSliderBpmValue.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                jSliderBpmValueStateChanged(evt);
+            }
+        });
+        jPanelMain.add(jSliderBpmValue);
+        jSliderBpmValue.setBounds(970, 19, 270, 50);
+
+        jTextFieldBpmDisplay.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jTextFieldBpmDisplay.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        jTextFieldBpmDisplay.setText("100 bpm");
+        jTextFieldBpmDisplay.setEnabled(false);
         jPanelMain.add(jTextFieldBpmDisplay);
-        jTextFieldBpmDisplay.setBounds(970, 50, 110, 40);
+        jTextFieldBpmDisplay.setBounds(970, 70, 110, 40);
 
         jButtonSoundNext.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jButtonSoundNext.setText(">");
@@ -647,8 +689,13 @@ public class javaMidiPiano extends javax.swing.JFrame {
         jToggleButtonMetronome.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jToggleButtonMetronome.setForeground(java.awt.Color.darkGray);
         jToggleButtonMetronome.setText("Metronome");
+        jToggleButtonMetronome.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                jToggleButtonMetronomeItemStateChanged(evt);
+            }
+        });
         jPanelMain.add(jToggleButtonMetronome);
-        jToggleButtonMetronome.setBounds(1100, 50, 140, 40);
+        jToggleButtonMetronome.setBounds(1100, 70, 140, 40);
 
         jButtonSoundBack.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jButtonSoundBack.setText("<");
@@ -857,6 +904,7 @@ public class javaMidiPiano extends javax.swing.JFrame {
 
                 synthesizer.getChannels()[0].programChange(instrumentIndex);
                 System.out.println("Switched to " + instruments[instrumentIndex].getName());
+                jTextSoundDisplay.setText(instruments[instrumentIndex].getName());
                 break;
             }
 
@@ -869,13 +917,27 @@ public class javaMidiPiano extends javax.swing.JFrame {
 
                 synthesizer.getChannels()[0].programChange(instrumentIndex);
                 System.out.println("Switched to " + instruments[instrumentIndex].getName());
+                jTextSoundDisplay.setText(instruments[instrumentIndex].getName());
                 break;
-                }
             }
+            
+            case KeyEvent.VK_SPACE: { // sustain
+                sustainSwitch = true;
+                break;
+            }
+            
+            case KeyEvent.VK_SHIFT: { // sustain
+                octaverSwitch = true;
+                break;
+            }
+        }
 
-            if (noteNumber != -1) {
-                midiChannels[0].noteOn(noteNumber, 600);
+        if (noteNumber != -1) {
+            midiChannels[0].noteOn(noteNumber, 600);
+            if (octaverSwitch == true) {
+                midiChannels[1].noteOn(noteNumber+12,600);
             }
+        }
         
     }//GEN-LAST:event_jButtonKeyFocusKeyPressed
 
@@ -884,7 +946,8 @@ public class javaMidiPiano extends javax.swing.JFrame {
         
         int keyCode = evt.getExtendedKeyCode();
         int noteNumber = -1;
-
+        
+       
         switch (keyCode) {
             case KeyEvent.VK_Z: { // A - Z
                 noteNumber = 57;
@@ -1045,10 +1108,25 @@ public class javaMidiPiano extends javax.swing.JFrame {
                 noteNumber = 84;
                 break;
             }
+            
+            case KeyEvent.VK_SPACE: { // sustain
+                sustainSwitch = false;
+                midiChannels[0].allNotesOff();
+                midiChannels[1].allNotesOff();
+                break;
+            }
+            
+            case KeyEvent.VK_SHIFT: { // sustain
+                octaverSwitch = false;
+                break;
+            }
         }
-
-        if (noteNumber != -1) {
+        
+        if (noteNumber != -1 && sustainSwitch == false) {
             midiChannels[0].noteOff(noteNumber, 600);
+            if (octaverSwitch == true) {
+                midiChannels[1].noteOff(noteNumber+12, 600);
+            }
         }
         
     }//GEN-LAST:event_jButtonKeyFocusKeyReleased
@@ -1060,313 +1138,709 @@ public class javaMidiPiano extends javax.swing.JFrame {
     // note: d; key: v; pitch: 62;
     private void jbdMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jbdMousePressed
         // TODO add your handling code here:
-        midiChannels[0].noteOn(62, 600); 
+        int noteNumber = 62;
+        
+        midiChannels[0].noteOn(noteNumber, 600);
+        
+        if(octaverSwitch == true) {
+            midiChannels[1].noteOn(noteNumber + 12, 600);
+        }
         
     }//GEN-LAST:event_jbdMousePressed
 
     private void jbdMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jbdMouseReleased
         // TODO add your handling code here:
-        midiChannels[0].noteOff(62, 600);
+        int noteNumber = 62;
+        
+        if(sustainSwitch == false) {
+            midiChannels[0].noteOff(noteNumber, 600);
+            
+            if(octaverSwitch == true) {
+                midiChannels[1].noteOff(noteNumber+12, 600);
+            }
+        }
         
     }//GEN-LAST:event_jbdMouseReleased
 
     // note: A; key: z; pitch: 57;
     private void jbAMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jbAMousePressed
         // TODO add your handling code here:
-        midiChannels[0].noteOn(57, 600);
+        int noteNumber = 57;
+        
+        midiChannels[0].noteOn(noteNumber, 600);
+        
+        if(octaverSwitch == true) {
+            midiChannels[1].noteOn(noteNumber + 12, 600);
+        }
     }//GEN-LAST:event_jbAMousePressed
 
     private void jbAMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jbAMouseReleased
         // TODO add your handling code here:
-        midiChannels[0].noteOff(57, 600);
+        int noteNumber = 57;
+        
+        if(sustainSwitch == false) {
+            midiChannels[0].noteOff(noteNumber, 600);
+            
+            if(octaverSwitch == true) {
+                midiChannels[1].noteOff(noteNumber+12, 600);
+            }
+        }
     }//GEN-LAST:event_jbAMouseReleased
 
     // note: H; key: x; pitch: 59;
     private void jbHMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jbHMousePressed
         // TODO add your handling code here:
-        midiChannels[0].noteOn(59, 600);
+        int noteNumber = 59;
+        
+        midiChannels[0].noteOn(noteNumber, 600);
+        
+        if(octaverSwitch == true) {
+            midiChannels[1].noteOn(noteNumber + 12, 600);
+        }
     }//GEN-LAST:event_jbHMousePressed
 
     private void jbHMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jbHMouseReleased
         // TODO add your handling code here:
-        midiChannels[0].noteOff(59, 600);    
+        int noteNumber = 59;
+        
+        if(sustainSwitch == false) {
+            midiChannels[0].noteOff(noteNumber, 600);
+            
+            if(octaverSwitch == true) {
+                midiChannels[1].noteOff(noteNumber+12, 600);
+            }
+        }    
     }//GEN-LAST:event_jbHMouseReleased
 
     // note: c; key: c; pitch: 60;
     private void jbcMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jbcMousePressed
         // TODO add your handling code here:
-        midiChannels[0].noteOn(60, 600);
+        int noteNumber = 60;
+        
+        midiChannels[0].noteOn(noteNumber, 600);
+        
+        if(octaverSwitch == true) {
+            midiChannels[1].noteOn(noteNumber + 12, 600);
+        }
     }//GEN-LAST:event_jbcMousePressed
 
     private void jbcMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jbcMouseReleased
         // TODO add your handling code here:
-        midiChannels[0].noteOff(60, 600);
+        int noteNumber = 60;
+        
+        if(sustainSwitch == false) {
+            midiChannels[0].noteOff(noteNumber, 600);
+            
+            if(octaverSwitch == true) {
+                midiChannels[1].noteOff(noteNumber+12, 600);
+            }
+        }
     }//GEN-LAST:event_jbcMouseReleased
 
     // note: e; key: b; pitch: 64; pitch: 64;
     private void jbeMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jbeMousePressed
         // TODO add your handling code here:
-        midiChannels[0].noteOn(64, 600);
+        int noteNumber = 64;
+        
+        midiChannels[0].noteOn(noteNumber, 600);
+        
+        if(octaverSwitch == true) {
+            midiChannels[1].noteOn(noteNumber + 12, 600);
+        }
     }//GEN-LAST:event_jbeMousePressed
 
     private void jbeMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jbeMouseReleased
         // TODO add your handling code here:
-        midiChannels[0].noteOff(64, 600);
+        int noteNumber = 64;
+        
+        if(sustainSwitch == false) {
+            midiChannels[0].noteOff(noteNumber, 600);
+            
+            if(octaverSwitch == true) {
+                midiChannels[1].noteOff(noteNumber+12, 600);
+            }
+        }
     }//GEN-LAST:event_jbeMouseReleased
 
     // note: f; key: n; pitch: 65;
     private void jbfMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jbfMousePressed
         // TODO add your handling code here:
-        midiChannels[0].noteOn(65, 600);
+        int noteNumber = 65;
+        
+        midiChannels[0].noteOn(noteNumber, 600);
+        
+        if(octaverSwitch == true) {
+            midiChannels[1].noteOn(noteNumber + 12, 600);
+        }
     }//GEN-LAST:event_jbfMousePressed
 
     private void jbfMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jbfMouseReleased
         // TODO add your handling code here:
-        midiChannels[0].noteOff(65, 600);
+        int noteNumber = 65;
+        
+        if(sustainSwitch == false) {
+            midiChannels[0].noteOff(noteNumber, 600);
+            
+            if(octaverSwitch == true) {
+                midiChannels[1].noteOff(noteNumber+12, 600);
+            }
+        }
     }//GEN-LAST:event_jbfMouseReleased
 
     // note: g; key: m; pitch: 67;
     private void jbgMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jbgMousePressed
         // TODO add your handling code here:
-        midiChannels[0].noteOn(67, 600);
+        int noteNumber = 67;
+        
+        midiChannels[0].noteOn(noteNumber, 600);
+        
+        if(octaverSwitch == true) {
+            midiChannels[1].noteOn(noteNumber + 12, 600);
+        }
     }//GEN-LAST:event_jbgMousePressed
 
     private void jbgMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jbgMouseReleased
         // TODO add your handling code here:
-        midiChannels[0].noteOff(67, 600);
+        int noteNumber = 67;
+        
+        if(sustainSwitch == false) {
+            midiChannels[0].noteOff(noteNumber, 600);
+            
+            if(octaverSwitch == true) {
+                midiChannels[1].noteOff(noteNumber+12, 600);
+            }
+        }
     }//GEN-LAST:event_jbgMouseReleased
 
     // note: a; key: ,q; pitch: 69;
     private void jbaMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jbaMousePressed
         // TODO add your handling code here:
-        midiChannels[0].noteOn(69, 600);
+        int noteNumber = 69;
+        
+        midiChannels[0].noteOn(noteNumber, 600);
+        
+        if(octaverSwitch == true) {
+            midiChannels[1].noteOn(noteNumber + 12, 600);
+        }
     }//GEN-LAST:event_jbaMousePressed
 
     private void jbaMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jbaMouseReleased
         // TODO add your handling code here:
-        midiChannels[0].noteOff(69, 600);
+        int noteNumber = 69;
+        
+        if(sustainSwitch == false) {
+            midiChannels[0].noteOff(noteNumber, 600);
+            
+            if(octaverSwitch == true) {
+                midiChannels[1].noteOff(noteNumber+12, 600);
+            }
+        }
     }//GEN-LAST:event_jbaMouseReleased
 
     // note: h; key: .w; pitch: 71;
     private void jbhMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jbhMousePressed
         // TODO add your handling code here:
-        midiChannels[0].noteOn(71, 600);
+        int noteNumber = 71;
+        
+        midiChannels[0].noteOn(noteNumber, 600);
+        
+        if(octaverSwitch == true) {
+            midiChannels[1].noteOn(noteNumber + 12, 600);
+        }
     }//GEN-LAST:event_jbhMousePressed
 
     private void jbhMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jbhMouseReleased
         // TODO add your handling code here:
-        midiChannels[0].noteOff(71, 600);
+        int noteNumber = 71;
+        
+        if(sustainSwitch == false) {
+            midiChannels[0].noteOff(noteNumber, 600);
+            
+            if(octaverSwitch == true) {
+                midiChannels[1].noteOff(noteNumber+12, 600);
+            }
+        }
     }//GEN-LAST:event_jbhMouseReleased
 
     // note: c1; key: /e; pitch: 72;
     private void jbc1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jbc1MousePressed
         // TODO add your handling code here:
-        midiChannels[0].noteOn(72, 600);
+        int noteNumber = 72;
+        
+        midiChannels[0].noteOn(noteNumber, 600);
+        
+        if(octaverSwitch == true) {
+            midiChannels[1].noteOn(noteNumber + 12, 600);
+        }
     }//GEN-LAST:event_jbc1MousePressed
 
     private void jbc1MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jbc1MouseReleased
         // TODO add your handling code here:
-        midiChannels[0].noteOff(72, 600);
+        int noteNumber = 72;
+        
+        if(sustainSwitch == false) {
+            midiChannels[0].noteOff(noteNumber, 600);
+            
+            if(octaverSwitch == true) {
+                midiChannels[1].noteOff(noteNumber+12, 600);
+            }
+        }
     }//GEN-LAST:event_jbc1MouseReleased
 
     // note: d1; key: r; pitch: 74;
     private void jbd1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jbd1MousePressed
         // TODO add your handling code here:
-        midiChannels[0].noteOn(74, 600);
+        int noteNumber = 74;
+        
+        midiChannels[0].noteOn(noteNumber, 600);
+        
+        if(octaverSwitch == true) {
+            midiChannels[1].noteOn(noteNumber + 12, 600);
+        }
     }//GEN-LAST:event_jbd1MousePressed
 
     private void jbd1MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jbd1MouseReleased
         // TODO add your handling code here:
-        midiChannels[0].noteOff(74, 600);
+        int noteNumber = 74;
+        
+        if(sustainSwitch == false) {
+            midiChannels[0].noteOff(noteNumber, 600);
+            
+            if(octaverSwitch == true) {
+                midiChannels[1].noteOff(noteNumber+12, 600);
+            }
+        }
     }//GEN-LAST:event_jbd1MouseReleased
 
     // note: e1; key: t; pitch: 76;
     private void jbe1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jbe1MousePressed
         // TODO add your handling code here:
-        midiChannels[0].noteOn(76, 600);
+        int noteNumber = 76;
+        
+        midiChannels[0].noteOn(noteNumber, 600);
+        
+        if(octaverSwitch == true) {
+            midiChannels[1].noteOn(noteNumber + 12, 600);
+        }
     }//GEN-LAST:event_jbe1MousePressed
 
     private void jbe1MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jbe1MouseReleased
         // TODO add your handling code here:
-        midiChannels[0].noteOff(76, 600);
+        int noteNumber = 76;
+        
+        if(sustainSwitch == false) {
+            midiChannels[0].noteOff(noteNumber, 600);
+            
+            if(octaverSwitch == true) {
+                midiChannels[1].noteOff(noteNumber+12, 600);
+            }
+        }
     }//GEN-LAST:event_jbe1MouseReleased
 
     // note: f1; key: y; pitch: 77;
     private void jbf1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jbf1MousePressed
         // TODO add your handling code here:
-        midiChannels[0].noteOn(77, 600);
+        int noteNumber = 77;
+        
+        midiChannels[0].noteOn(noteNumber, 600);
+        
+        if(octaverSwitch == true) {
+            midiChannels[1].noteOn(noteNumber + 12, 600);
+        }
     }//GEN-LAST:event_jbf1MousePressed
 
     private void jbf1MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jbf1MouseReleased
         // TODO add your handling code here:
-        midiChannels[0].noteOff(77, 600);
+        int noteNumber = 77;
+        
+        if(sustainSwitch == false) {
+            midiChannels[0].noteOff(noteNumber, 600);
+            
+            if(octaverSwitch == true) {
+                midiChannels[1].noteOff(noteNumber+12, 600);
+            }
+        }
     }//GEN-LAST:event_jbf1MouseReleased
 
     // note: g1; key: u; pitch: 79;
     private void jbg1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jbg1MousePressed
         // TODO add your handling code here:
-        midiChannels[0].noteOn(79, 600);
+        int noteNumber = 79;
+        
+        midiChannels[0].noteOn(noteNumber, 600);
+        
+        if(octaverSwitch == true) {
+            midiChannels[1].noteOn(noteNumber + 12, 600);
+        }
     }//GEN-LAST:event_jbg1MousePressed
 
     private void jbg1MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jbg1MouseReleased
         // TODO add your handling code here:
-        midiChannels[0].noteOff(79, 600);
+        int noteNumber = 79;
+        
+        if(sustainSwitch == false) {
+            midiChannels[0].noteOff(noteNumber, 600);
+            
+            if(octaverSwitch == true) {
+                midiChannels[1].noteOff(noteNumber+12, 600);
+            }
+        }
     }//GEN-LAST:event_jbg1MouseReleased
 
     // note: a1; key: i; pitch: 81;
     private void jba1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jba1MousePressed
         // TODO add your handling code here:
-        midiChannels[0].noteOn(81, 600);
+        int noteNumber = 81;
+        
+        midiChannels[0].noteOn(noteNumber, 600);
+        
+        if(octaverSwitch == true) {
+            midiChannels[1].noteOn(noteNumber + 12, 600);
+        }
     }//GEN-LAST:event_jba1MousePressed
 
     private void jba1MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jba1MouseReleased
         // TODO add your handling code here:
-        midiChannels[0].noteOff(81, 600);
+        int noteNumber = 81;
+        
+        if(sustainSwitch == false) {
+            midiChannels[0].noteOff(noteNumber, 600);
+            
+            if(octaverSwitch == true) {
+                midiChannels[1].noteOff(noteNumber+12, 600);
+            }
+        }
     }//GEN-LAST:event_jba1MouseReleased
 
     // note: h1; key: o; pitch: 83;
     private void jbh1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jbh1MousePressed
         // TODO add your handling code here:
-        midiChannels[0].noteOn(83, 600);
+        int noteNumber = 83;
+        
+        midiChannels[0].noteOn(noteNumber, 600);
+        
+        if(octaverSwitch == true) {
+            midiChannels[1].noteOn(noteNumber + 12, 600);
+        }
     }//GEN-LAST:event_jbh1MousePressed
 
     private void jbh1MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jbh1MouseReleased
         // TODO add your handling code here:
-        midiChannels[0].noteOff(83, 600);
+        int noteNumber = 83;
+        
+        if(sustainSwitch == false) {
+            midiChannels[0].noteOff(noteNumber, 600);
+            
+            if(octaverSwitch == true) {
+                midiChannels[1].noteOff(noteNumber+12, 600);
+            }
+        }
     }//GEN-LAST:event_jbh1MouseReleased
 
     // note: c2; key: p; pitch: 84;
     private void jbc2MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jbc2MousePressed
         // TODO add your handling code here:
-        midiChannels[0].noteOn(84, 600);
+        int noteNumber = 84;
+        
+        midiChannels[0].noteOn(noteNumber, 600);
+        
+        if(octaverSwitch == true) {
+            midiChannels[1].noteOn(noteNumber + 12, 600);
+        }
     }//GEN-LAST:event_jbc2MousePressed
 
     private void jbc2MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jbc2MouseReleased
         // TODO add your handling code here:
-        midiChannels[0].noteOff(84, 600);
+        int noteNumber = 84;
+        
+        if(sustainSwitch == false) {
+            midiChannels[0].noteOff(noteNumber, 600);
+            
+            if(octaverSwitch == true) {
+                midiChannels[1].noteOff(noteNumber+12, 600);
+            }
+        }
     }//GEN-LAST:event_jbc2MouseReleased
 
     // note: Ais; key: s; pitch: 58;
     private void jbAisMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jbAisMousePressed
         // TODO add your handling code here:
-        midiChannels[0].noteOn(58, 600);
+        int noteNumber = 58;
+        
+        midiChannels[0].noteOn(noteNumber, 600);
+        
+        if(octaverSwitch == true) {
+            midiChannels[1].noteOn(noteNumber + 12, 600);
+        }
     }//GEN-LAST:event_jbAisMousePressed
 
     private void jbAisMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jbAisMouseReleased
         // TODO add your handling code here:
-        midiChannels[0].noteOff(58, 600);
+        int noteNumber = 58;
+        
+        if(sustainSwitch == false) {
+            midiChannels[0].noteOff(noteNumber, 600);
+            
+            if(octaverSwitch == true) {
+                midiChannels[1].noteOff(noteNumber+12, 600);
+            }
+        }
     }//GEN-LAST:event_jbAisMouseReleased
 
     // note: cis; key: f; pitch: 61;
     private void jbcisMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jbcisMousePressed
         // TODO add your handling code here:
-        midiChannels[0].noteOn(61, 600);
+        int noteNumber = 61;
+        
+        midiChannels[0].noteOn(noteNumber, 600);
+        
+        if(octaverSwitch == true) {
+            midiChannels[1].noteOn(noteNumber + 12, 600);
+        }
     }//GEN-LAST:event_jbcisMousePressed
 
     private void jbcisMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jbcisMouseReleased
         // TODO add your handling code here:
-        midiChannels[0].noteOff(61, 600);
+        int noteNumber = 61;
+        
+        if(sustainSwitch == false) {
+            midiChannels[0].noteOff(noteNumber, 600);
+            
+            if(octaverSwitch == true) {
+                midiChannels[1].noteOff(noteNumber+12, 600);
+            }
+        }
     }//GEN-LAST:event_jbcisMouseReleased
 
     // note: dis; key: g; pitch: 63;
     private void jbdisMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jbdisMousePressed
         // TODO add your handling code here:
-        midiChannels[0].noteOn(63, 600);
+        int noteNumber = 63;
+        
+        midiChannels[0].noteOn(noteNumber, 600);
+        
+        if(octaverSwitch == true) {
+            midiChannels[1].noteOn(noteNumber + 12, 600);
+        }
     }//GEN-LAST:event_jbdisMousePressed
 
     private void jbdisMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jbdisMouseReleased
         // TODO add your handling code here:
-        midiChannels[0].noteOff(63, 600);
+        int noteNumber = 63;
+        
+        if(sustainSwitch == false) {
+            midiChannels[0].noteOff(noteNumber, 600);
+            
+            if(octaverSwitch == true) {
+                midiChannels[1].noteOff(noteNumber+12, 600);
+            }
+        }
     }//GEN-LAST:event_jbdisMouseReleased
 
     // note: fis; key: j; pitch: 66;
     private void jbfisMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jbfisMousePressed
         // TODO add your handling code here:
-        midiChannels[0].noteOn(66, 600);
+        int noteNumber = 66;
+        
+        midiChannels[0].noteOn(noteNumber, 600);
+        
+        if(octaverSwitch == true) {
+            midiChannels[1].noteOn(noteNumber + 12, 600);
+        }
     }//GEN-LAST:event_jbfisMousePressed
 
     private void jbfisMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jbfisMouseReleased
         // TODO add your handling code here:
-        midiChannels[0].noteOff(66, 600);
+        int noteNumber = 66;
+        
+        if(sustainSwitch == false) {
+            midiChannels[0].noteOff(noteNumber, 600);
+            
+            if(octaverSwitch == true) {
+                midiChannels[1].noteOff(noteNumber+12, 600);
+            }
+        }
     }//GEN-LAST:event_jbfisMouseReleased
 
     // note: gis; key: k; pitch: 68;
     private void jbgisMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jbgisMousePressed
         // TODO add your handling code here:
-        midiChannels[0].noteOn(68, 600);
+        int noteNumber = 68;
+        
+        midiChannels[0].noteOn(noteNumber, 600);
+        
+        if(octaverSwitch == true) {
+            midiChannels[1].noteOn(noteNumber + 12, 600);
+        }
     }//GEN-LAST:event_jbgisMousePressed
 
     private void jbgisMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jbgisMouseReleased
         // TODO add your handling code here:
-        midiChannels[0].noteOff(68, 600);
+        int noteNumber = 68;
+        
+        if(sustainSwitch == false) {
+            midiChannels[0].noteOff(noteNumber, 600);
+            
+            if(octaverSwitch == true) {
+                midiChannels[1].noteOff(noteNumber+12, 600);
+            }
+        }
     }//GEN-LAST:event_jbgisMouseReleased
 
     // note: ais; key: l; pitch: 70;
     private void jbaisMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jbaisMousePressed
         // TODO add your handling code here:
-        midiChannels[0].noteOn(70, 600);
+        int noteNumber = 70;
+        
+        midiChannels[0].noteOn(noteNumber, 600);
+        
+        if(octaverSwitch == true) {
+            midiChannels[1].noteOn(noteNumber + 12, 600);
+        }
     }//GEN-LAST:event_jbaisMousePressed
 
     private void jbaisMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jbaisMouseReleased
         // TODO add your handling code here:
-        midiChannels[0].noteOff(70, 600);
+        int noteNumber = 70;
+        
+        if(sustainSwitch == false) {
+            midiChannels[0].noteOff(noteNumber, 600);
+            
+            if(octaverSwitch == true) {
+                midiChannels[1].noteOff(noteNumber+12, 600);
+            }
+        }
     }//GEN-LAST:event_jbaisMouseReleased
 
     // note: cis1; key: 4; pitch: 73;
     private void jbcis1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jbcis1MousePressed
         // TODO add your handling code here:
-        midiChannels[0].noteOn(73, 600);
+        int noteNumber = 73;
+        
+        midiChannels[0].noteOn(noteNumber, 600);
+        
+        if(octaverSwitch == true) {
+            midiChannels[1].noteOn(noteNumber + 12, 600);
+        }
     }//GEN-LAST:event_jbcis1MousePressed
 
     private void jbcis1MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jbcis1MouseReleased
         // TODO add your handling code here:
-        midiChannels[0].noteOff(73, 600);
+        int noteNumber = 73;
+        
+        if(sustainSwitch == false) {
+            midiChannels[0].noteOff(noteNumber, 600);
+            
+            if(octaverSwitch == true) {
+                midiChannels[1].noteOff(noteNumber+12, 600);
+            }
+        }
     }//GEN-LAST:event_jbcis1MouseReleased
 
     // note: dis1; key: 5; pitch: 75;
     private void jbdis1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jbdis1MousePressed
         // TODO add your handling code here:
-        midiChannels[0].noteOn(75, 600);
+        int noteNumber = 75;
+        
+        midiChannels[0].noteOn(noteNumber, 600);
+        
+        if(octaverSwitch == true) {
+            midiChannels[1].noteOn(noteNumber + 12, 600);
+        }
     }//GEN-LAST:event_jbdis1MousePressed
 
     private void jbdis1MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jbdis1MouseReleased
         // TODO add your handling code here:
-        midiChannels[0].noteOff(75, 600);
+        int noteNumber = 75;
+        
+        if(sustainSwitch == false) {
+            midiChannels[0].noteOff(noteNumber, 600);
+            
+            if(octaverSwitch == true) {
+                midiChannels[1].noteOff(noteNumber+12, 600);
+            }
+        }
     }//GEN-LAST:event_jbdis1MouseReleased
 
     // note: fis1; key: 7; pitch: 78;
     private void jbfis1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jbfis1MousePressed
         // TODO add your handling code here:
-        midiChannels[0].noteOn(78, 600);
+        int noteNumber = 78;
+        
+        midiChannels[0].noteOn(noteNumber, 600);
+        
+        if(octaverSwitch == true) {
+            midiChannels[1].noteOn(noteNumber + 12, 600);
+        }
     }//GEN-LAST:event_jbfis1MousePressed
 
     private void jbfis1MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jbfis1MouseReleased
         // TODO add your handling code here:
-        midiChannels[0].noteOff(78, 600);
+        int noteNumber = 78;
+        
+        if(sustainSwitch == false) {
+            midiChannels[0].noteOff(noteNumber, 600);
+            
+            if(octaverSwitch == true) {
+                midiChannels[1].noteOff(noteNumber+12, 600);
+            }
+        }
     }//GEN-LAST:event_jbfis1MouseReleased
 
     // note: gis1; key: 8; pitch: 80;
     private void jbgis1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jbgis1MousePressed
         // TODO add your handling code here:
-        midiChannels[0].noteOn(80, 600);
+        int noteNumber = 80;
+        
+        midiChannels[0].noteOn(noteNumber, 600);
+        
+        if(octaverSwitch == true) {
+            midiChannels[1].noteOn(noteNumber + 12, 600);
+        }
     }//GEN-LAST:event_jbgis1MousePressed
 
     private void jbgis1MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jbgis1MouseReleased
         // TODO add your handling code here:
-        midiChannels[0].noteOff(80, 600);
+        int noteNumber = 80;
+        
+        if(sustainSwitch == false) {
+            midiChannels[0].noteOff(noteNumber, 600);
+            
+            if(octaverSwitch == true) {
+                midiChannels[1].noteOff(noteNumber+12, 600);
+            }
+        }
     }//GEN-LAST:event_jbgis1MouseReleased
 
     // note: ais1; key: 9; pitch: 82;
     private void jbais1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jbais1MousePressed
         // TODO add your handling code here:
-        midiChannels[0].noteOn(82, 600);
+        int noteNumber = 82;
+        
+        midiChannels[0].noteOn(noteNumber, 600);
+        
+        if(octaverSwitch == true) {
+            midiChannels[1].noteOn(noteNumber + 12, 600);
+        }
     }//GEN-LAST:event_jbais1MousePressed
 
     private void jbais1MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jbais1MouseReleased
         // TODO add your handling code here:
-        midiChannels[0].noteOff(82, 600);
+        int noteNumber = 82;
+        
+        if(sustainSwitch == false) {
+            midiChannels[0].noteOff(noteNumber, 600);
+            
+            if(octaverSwitch == true) {
+                midiChannels[1].noteOff(noteNumber+12, 600);
+            }
+        }
     }//GEN-LAST:event_jbais1MouseReleased
 
+    /*
+        INSTRUMENT CHANGING BUTTON SECTION
+    */
+    
     private void jButtonSoundBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSoundBackActionPerformed
         // TODO add your handling code here:
         if (instrumentIndex == 0) {
@@ -1376,6 +1850,7 @@ public class javaMidiPiano extends javax.swing.JFrame {
         }
         synthesizer.getChannels()[0].programChange(instrumentIndex);
         System.out.println("Switched to " + instruments[instrumentIndex].getName());
+        jTextSoundDisplay.setText(instruments[instrumentIndex].getName());
     }//GEN-LAST:event_jButtonSoundBackActionPerformed
 
     private void jButtonSoundNextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSoundNextActionPerformed
@@ -1387,7 +1862,60 @@ public class javaMidiPiano extends javax.swing.JFrame {
         }
         synthesizer.getChannels()[0].programChange(instrumentIndex);
         System.out.println("Switched to " + instruments[instrumentIndex].getName());
+        jTextSoundDisplay.setText(instruments[instrumentIndex].getName());
     }//GEN-LAST:event_jButtonSoundNextActionPerformed
+
+    private void jSliderBpmValueStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jSliderBpmValueStateChanged
+        // TODO add your handling code here:
+        jTextFieldBpmDisplay.setText("" + jSliderBpmValue.getValue() + " bpm");
+    }//GEN-LAST:event_jSliderBpmValueStateChanged
+
+    private void jToggleButtonMetronomeItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jToggleButtonMetronomeItemStateChanged
+        // TODO add your handling code here:
+        
+        int state = evt.getStateChange();
+        int bpm = jSliderBpmValue.getValue();
+        Metronome metronome = new Metronome();
+        
+        if (state == evt.SELECTED) {
+          System.out.println("Metronome ON");
+          metronome.start(bpm);
+        } else {
+          System.out.println("Metronome OFF");
+          //metronome.stop();
+        }
+        
+    }//GEN-LAST:event_jToggleButtonMetronomeItemStateChanged
+
+    private void jCheckSustainEffItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jCheckSustainEffItemStateChanged
+        // TODO add your handling code here:
+        int sustainState = evt.getStateChange();
+        
+        if (sustainState == evt.SELECTED) {
+          System.out.println("Sustain ON");
+          sustainSwitch = true;
+        } else {
+          System.out.println("Sustain OFF");
+          sustainSwitch = false;
+        }
+    }//GEN-LAST:event_jCheckSustainEffItemStateChanged
+
+    private void jCheckIbratoEffItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jCheckIbratoEffItemStateChanged
+        // TODO add your handling code here:
+        int octaverState = evt.getStateChange();
+        
+        if (octaverState == evt.SELECTED) {
+          System.out.println("Octaver ON");
+          octaverSwitch = true;
+        } else {
+          System.out.println("Octaver OFF");
+          octaverSwitch = false;
+        }
+    }//GEN-LAST:event_jCheckIbratoEffItemStateChanged
+
+    private void jCheckIbratoEffActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckIbratoEffActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jCheckIbratoEffActionPerformed
 
     /**
      * @param args the command line arguments
